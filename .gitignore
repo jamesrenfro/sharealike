@@ -1,3 +1,13 @@
+# virtualenv
+bin
+include
+lib
+
+# PyDev
+.Python
+.project
+.pydevproject
+
 *.log
 *.pot
 *.pyc
