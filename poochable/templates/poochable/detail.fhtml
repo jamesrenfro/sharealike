@@ -1,0 +1,4 @@
+
+<img src="{{ picture.image.url }}" alt="{{ picture.dog.name }}">
+<div class="lightbox-caption"><p>{{ picture.dog.name }}</p></div>
+

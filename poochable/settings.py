@@ -111,6 +111,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+#     'easy_thumbnails',
+    'rest_framework',
     'poochable'
 )
 
@@ -142,6 +144,25 @@ LOGGING = {
         },
     }
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#         'rest_framework.renderers.JSONRenderer',
+#     ),
+#     'DEFAULT_PARSER_CLASSES': (
+#         'rest_framework.parsers.JSONParser',
+#         'rest_framework.parsers.FormParser',
+#         'rest_framework.parsers.MultiPartParser'
+#     )
+# }
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (100, 100), 'crop': True},
+    },
+}
+
+POOCHABLE_MAX_RESULTS = 500
 
 ## Set the DATABASES and SECRET_KEY in a local_settings.py file
 ## You may want to also override LOGGINGs

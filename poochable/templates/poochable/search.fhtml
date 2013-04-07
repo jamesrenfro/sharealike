@@ -1,0 +1,14 @@
+
+<div class="container">
+	<br></br>
+	<br></br>
+	{% if pictures %}
+	    <table class="table">
+	    {% for picture in pictures %}
+	        <tr><td><a href="/pooch/{{ picture.id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">{{ picture.dog.name }}</a></td></tr>
+	    {% endfor %}
+	    </table>
+	{% else %}
+	    <p>No matching results</p>
+	{% endif %}
+</div>
