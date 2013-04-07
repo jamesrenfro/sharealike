@@ -5,11 +5,12 @@ Share pictures of your dog!
 
 ## Quick start
 
-> git clone https://github.com/jamesrenfro/poochable.git
-> virtualenv poochable
-> cd poochable
-> pip install -r requirements
-> python manage.py runserver  
+	> git clone https://github.com/jamesrenfro/poochable.git
+	> virtualenv poochable
+	> cd poochable
+	> source bin/activate
+	> pip install -r requirements
+	> python manage.py runserver  
 
 
 ## Authors

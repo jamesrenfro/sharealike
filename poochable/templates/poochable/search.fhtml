@@ -1,13 +1,13 @@
-
+{% load thumbnail %}
 <div class="container">
 	<br></br>
 	<br></br>
 	{% if pictures %}
-	    <table class="table">
+	    <div class="row">
 	    {% for picture in pictures %}
-	        <tr><td><a href="/pooch/{{ picture.id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">{{ picture.dog.name }}</a></td></tr>
+	        <a href="/pooch/{{ picture.id }}" data-toggle="lightbox" data-target="#post-picture-lightbox"><div class="span1"><img src="{{ picture.image|thumbnail_url:'avatar' }}" alt=""></div><div class="span4"><h3>{{ picture.dog.name }}</h3></div></a>
 	    {% endfor %}
-	    </table>
+	    </div>
 	{% else %}
 	    <p>No matching results</p>
 	{% endif %}

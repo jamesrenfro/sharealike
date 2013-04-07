@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-#     'easy_thumbnails',
+    'easy_thumbnails',
     'rest_framework',
     'poochable'
 )
