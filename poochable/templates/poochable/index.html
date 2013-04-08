@@ -23,44 +23,44 @@
     <!-- <link rel="shortcut icon" href="/static/img/favicon.png">-->
   </head>
   <body>
-	<div id="header" class="navbar navbar-top">
-  		<div class="navbar-inner">
-    		<div class="container container-full-width">
-    			<div class="row">
-    				<div class="span3"><a href="/" class="brand">Poochable</a></div>
-    				<div class="span8 pull-right">
-    					<form id="search-form">
+  	<form id="search-form">
+		<div id="header" class="navbar navbar-top">
+	  		<div class="navbar-inner">
+	    		<div class="container container-full-width">
+	    			<div class="row">
+	    				<div class="span3"><a href="/" class="brand">Poochable</a></div>
+	    				<div class="span8 pull-right">
 	             			<input type="text" id="search-field" name="term" class="input-medium search-query" placeholder="Find a pooch" autocomplete="off">
 	             			<div class="btn-group">
-	             				<a id="search-button" href="#search" class="btn"><i class="icon icon-search"></i>&nbsp;Search</a>
-	             				<a id="browse-button" href="#browse" class="btn"><i class="icon icon-search"></i>&nbsp;Browse</a>
+	             				<button id="search-button" type="submit" class="btn"><i class="icon icon-search"></i>&nbsp;Search</button>
+	             				<button id="browse-button" type="button" class="btn"><i class="icon icon-search"></i>&nbsp;Browse</button>
 							</div>
 							<div class="btn-group">
 								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share pics&nbsp;<span class="icon icon-camera icon-white"></span></a>
 							</div>
-	         			</form>
-    				</div>
-    			</div>
-    		</div>
-	  	</div>
-	</div>
+	    				</div>
+	    			</div>
+	    		</div>
+		  	</div>
+		</div>
 
-    <div id="main-carousel" class="carousel slide" data-interval="90000">
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="{% static "originals/puppy.jpg" %}" alt="" class="full-screen-image">
-        </div>
-        <div id="search-results" class="item">
-        	<div class="modal-body">
-        	</div>
-        </div>
-      </div>
-      <!-- 
-      <a class="left carousel-control" href="#main-carousel" data-slide="prev">&lsaquo;</a>
-      <a class="right carousel-control" href="#main-carousel" data-slide="next">&rsaquo;</a>
-      -->
-    </div>
-
+	    <div id="main-carousel" class="carousel slide" data-interval="90000">
+	      <div class="carousel-inner">
+	        <div class="item active">
+	          <img src="{% static "originals/puppy.jpg" %}" alt="" class="full-screen-image">
+	        </div>
+	        <div id="search-results" class="item">
+	        	<div class="modal-body">
+	        	</div>
+	        </div>
+	      </div>
+	      <!-- 
+	      <a class="left carousel-control" href="#main-carousel" data-slide="prev">&lsaquo;</a>
+	      <a class="right carousel-control" href="#main-carousel" data-slide="next">&rsaquo;</a>
+	      -->
+	    </div>
+	</form>
+	
    	<div class="footer">
     </div>
 
@@ -123,179 +123,13 @@
 			<strong>Warning!</strong> Something went seriously wrong!
 		</div>
 	</script>
-	<script type="text/javascript"><!--
-
-		$(document).ready(function() {
-			
-			var Workspace = Backbone.Router.extend({
-
-				  routes: {
-				    "browse": "browse", 
-				    "search": "search",
-				    "search/:query" : "search_for",
-				  },
-
-				  browse: function() {
-				  	var search_results = $('#search-results');
-				  	search_results.load("/browse");
-				  	if (! search_results.hasClass('active')) {
-					  $('#main-carousel').carousel('next');
-					  $('#main-carousel').carousel('pause');
-					}
-				  },
-				  
-				  search: function() {
-					var data = $('#search-form').serialize();
-					this.navigate('search/' + data);
-				  },
-				  
-				  search_for: function(query) {
-					var search_results = $('#search-results');
-				  		
-					search_results.load("/search", query);
-					if (! search_results.hasClass('active')) {
-					  $('#main-carousel').carousel('next');
-					  $('#main-carousel').carousel('pause');
-					}	  
-				  }
-
-			});
-			
-			var workspace = new Workspace;
-			Backbone.history.start();
-			
-		  	$('#add-picture-form').submit(function() {
-		  		
-		  		return false;
-		  	});
-		  	
-		  	$('#search-form').submit(function() {
-		  		workspace.navigate('#search');
-		  		return false;
-		  	});
-			
-		  	var app = {};
-		  	app.clear_modal = function() {
-		  		var modal = $('#add-picture-dialog');
-		  		modal.find('.control-group').removeClass('error');
-		  		modal.find('.help-inline').remove();
-		  		modal.find('form')[0].reset();
-		  	};
-		  	app.bad_request = function (jqXHR, textStatus, errorThrown) {
-		  		var modal = $('#add-picture-dialog');
-		  		var errors = $.parseJSON(jqXHR.responseText);
-		  		
-		  		for (var key in errors) {
-		  			var selector = '[name="' + key + '"]';
-		  			var error = errors[key][0];
-		  			var el = modal.find(selector);
-		  			el.after('<span class="help-inline">' + error + '</span>');
-		  			el.closest('.control-group').addClass('error');
-		  		}
-		  	};
-		  	app.failure = function(jqXHR, textStatus, errorThrown) {
-		  		var source   = $("#add-picture-dialog-alert-template").html();
-				var template = Handlebars.compile(source);
-				var $notification = $("#picture-dialog-notification");
-				$notification.html(template);
-		  	};
-		  	app.search = function() {
-		  		var data = $('#search-form').serialize();
-		  		var search_results = $('#search-results');
-		  		
-		  		search_results.load("/search", data);
-		  		if (! search_results.hasClass('active')) {
-			 		$('#main-carousel').carousel('next');
-				  	$('#main-carousel').carousel('pause');
-			  	}
-		  	};
-		  	app.success = function() {
-		  		$('#add-picture-dialog').modal('hide');
-		  	};
-		  	
-		  	$('#add-picture-dialog').on('hidden', app.clear_modal);
-		  	
-		  	$('#post-picture-lightbox').bind('shown', function(event) {
-		  	
-		  	});
-		  	
-// 		  	$('#search-button').click(function() {
-// 		  		app.search();
-// 		  	});
-		  	
-
-		  	
-		  	$('#upload-button').click(function() {
-		  		var modal = $('#add-picture-dialog');
-		  		var data = new FormData();
-				jQuery.each(modal.find('.attachment')[0].files, function(i, file) {
-				    data.append('attachment', file);
-				});
-				jQuery.each(modal.find(':input'), function(i, input) {
-					var el = $(input);
-					var name = el.attr('name');
-					var value = el.val();
-					data.append(name, value);
-				});
-
-				app.clear_modal();
-				$.ajax({
-				  url: '/api/pooch',
-				  data: data,
-				  processData: false,
-				  contentType: false,
-				  type: 'POST',
-				  statusCode: {
-				  	200: app.success,
-				  	400: app.bad_request,
-				  	500: app.failure,
-				  }
-				});
-		  	
-		  	});
-		  	
-		  	// Extending bootstrap-lightbox to load the href data 
-		  	$(document).unbind('click.lightbox.data-api');
-		  	$(document).on('click.lightbox.data-api', '[data-toggle="lightbox"]', function (e)
-			{
-				var $this = $(this);
-				var href  = $this.attr('href');
-				var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))); //strip for ie7
-				var option = $target.data('lightbox') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data());
-				var img    = $this.attr('data-image') || false;
-				var $imgElem;
-						
-				e.preventDefault();
-		
-				$target
-					.find('.lightbox-content')
-					.load(href, function() {
-				
-					if(img)
-					{
-						$target.data('original-content', $target.find('.lightbox-content').html());
-						$target.find('.lightbox-content').html('<img border="0" src="'+img+'" />');
-					}
-			
-					$target
-						.lightbox(option)
-						.one('hide', function () 
-						{
-							$this.focus()
-						})
-						.one('hidden',function ()
-						{
-							if( img )
-							{
-								$target.find('.lightbox-content').html( $target.data('original-content') );
-								img = undefined;
-							}
-						});
-				});
-			})
-		  	
-		});
-	--></script>
-
+	<script id="search-result-template" type="text/x-handlebars-template">
+		<li>
+			<a class="thumbnail" href="/pooch/{{ id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">
+				<img alt="Thumbnail of {{ dog_name }}" src=""> <p>{{ dog_name }}</p>
+			</a>
+		</li>
+	</script>
+	<script type="text/javascript" src="/static/js/poochable.jq.js"></script>
   </body>
 </html>

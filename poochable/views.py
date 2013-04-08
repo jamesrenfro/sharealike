@@ -31,7 +31,7 @@ def index(request):
     return SimpleTemplateResponse(template='poochable/index.html', context=context)
 
 def browse(request):
-    pictures = Picture.objects.all().order_by('score').order_by('last_modified')[:100]
+    pictures = Picture.objects.all().order_by('-score').order_by('-last_modified')[:100]
     context = RequestContext(request, {'pictures': pictures})
     return SimpleTemplateResponse(template='poochable/search.fhtml', context=context)
 

@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import fields
 
+import easy_thumbnails
+
 """
 Data model objects for persistence to a relational database. In general these
 will extend the AbstractEntityModel class below, but in some cases (e.g. SearchIndex)
@@ -86,6 +88,7 @@ class Person(AbstractEntityModel):
 class Picture(AbstractEntityModel):
     dog = models.ForeignKey('Dog', null=False, db_index=True)
     image = models.ImageField(upload_to='originals', width_field='width', height_field='height')
+    #thumbnail = easy_thumbnails.fields.ThumbnailerImageField()
     height = fields.IntegerField()
     width = fields.IntegerField()
     score = fields.PositiveIntegerField(blank=True, null=False, db_index=True)
