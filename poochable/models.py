@@ -1,14 +1,14 @@
-from django.db import models
-from django.db.models import fields
-
-import easy_thumbnails
-
 """
 Data model objects for persistence to a relational database. In general these
 will extend the AbstractEntityModel class below, but in some cases (e.g. SearchIndex)
 the common fields are not needed and the model class will extend the base Django 
 Model class. 
 """
+from django.db import models
+from django.db.models import fields
+
+import easy_thumbnails
+
 
 # This class defines common fields and behavior for all "entity" models, 
 # such as Dog, Person, etc...
@@ -107,6 +107,8 @@ class Picture(AbstractEntityModel):
 class SearchIndex(models.Model):
     term = models.CharField(max_length=255)
     
+# Defines a map between SearchIndex and Picture 
 class SearchIndexPicture(models.Model):
     search_index = models.ForeignKey('SearchIndex', null=False, db_index=True)
     picture = models.ForeignKey('Picture', null=False, db_index=True)    
+

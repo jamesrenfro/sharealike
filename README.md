@@ -23,6 +23,12 @@ Share pictures of your dog!
 	need to log in to the AWS Management console [https://console.aws.amazon.com]
 	and create one of each.
 
+## Troubleshooting pillow/PIL installation
+
+	Doesn't seem to be straightforward to install pillow on all environments.
+	The following may be helpful if you jpeg dependency is not being found on ubuntu:
+	[http://stackoverflow.com/questions/4632261/pil-jpeg-library-help]
+
 
 ## Authors
 
