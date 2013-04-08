@@ -82,8 +82,13 @@ def do_search(request):
         # This query results in three separate database statements -- the first is a join between SearchIndexPicture and SearchIndex.
         # The other two are SELECT IN on primary keys for Picture and Dog 
         indices = SearchIndexPicture.objects.filter(search_index__term__contains=term).prefetch_related('picture').prefetch_related('picture__dog')[:MAX_RESULTS]
+        picture_ids = set()
         for index in indices:
-            pictures.append(index.picture)
+            picture = index.picture
+            picture_id = picture.pk
+            if picture_id not in picture_ids:
+                pictures.append(index.picture)
+                picture_ids.add(picture_id)
 
     return pictures
 

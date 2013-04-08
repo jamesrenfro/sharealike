@@ -90,31 +90,47 @@ class InterfaceLevelTest(TestCase):
     @mock.patch('storages.backends.s3boto.S3BotoStorage', FileSystemStorage)
     def test_post_picture_with_person_first_name_success(self):
         with(self.settings(MEDIA_ROOT='/tmp')):
-            attachment = open(TEST_IMAGE_PATH)
-            data = {'dog_name': 'Jules', 'person_first_name': 'Georgina', 'attachment': attachment}
-            self._post_to_pooch(data)
-            pictures = self._get_pictures('Georgina')
-            self.assertEqual(1, len(pictures), "Searching by person first name should bring back picture")
-            pictures = self._get_pictures('Jules')
-            self.assertEqual(1, len(pictures), "Searching by dog name should bring back picture")
-            pictures = self._get_pictures('LE')
-            self.assertEqual(1, len(pictures), "Searching by fragment of dog name should bring back picture")
-            pictures = self._get_pictures('')
-            self.assertEqual(0, len(pictures), "Searching by blank shouldn't bring back anything")
-            pictures = self._get_pictures('XYZ')
-            self.assertEqual(0, len(pictures), "Searching by non-matching shouldn't bring back anything")
+            try:
+                attachment = open(TEST_IMAGE_PATH)
+                data = {'dog_name': 'Jules', 'person_first_name': 'Georgina', 'attachment': attachment}
+                self._post_to_pooch(data)
+                pictures = self._get_pictures('Georgina')
+                self.assertEqual(1, len(pictures), "Searching by person first name should bring back picture")
+                pictures = self._get_pictures('Jules')
+                self.assertEqual(1, len(pictures), "Searching by dog name should bring back picture")
+                pictures = self._get_pictures('LE')
+                self.assertEqual(1, len(pictures), "Searching by fragment of dog name should bring back picture")
+                pictures = self._get_pictures('')
+                self.assertEqual(0, len(pictures), "Searching by blank shouldn't bring back anything")
+                pictures = self._get_pictures('XYZ')
+                self.assertEqual(0, len(pictures), "Searching by non-matching shouldn't bring back anything")
+            finally:
+                if attachment is not None:
+                    attachment.close()
 
     def test_post_picture_with_missing_dog_name_failure(self):
         with(self.settings(MEDIA_ROOT='/tmp')):
+            try:
+                attachment = open(TEST_IMAGE_PATH)
+                data = {'attachment': attachment}
+                self._post_to_pooch(data, expected_status_code=400)
+                pictures = self._get_pictures('Fred')
+                self.assertEqual(0, len(pictures), "Shouldn't be able to find any pictures")
+            finally:
+                if attachment is not None:
+                    attachment.close()
+
+
+    def test_post_pictures_tagged_twice_same_term(self):
+        try:
             attachment = open(TEST_IMAGE_PATH)
-            data = {'attachment': attachment}
-            self._post_to_pooch(data, expected_status_code=400)
-            pictures = self._get_pictures('Fred')
-            self.assertEqual(0, len(pictures), "Shouldn't be able to find any pictures")
-
-
-
-
+            data = {'dog_name': 'Jules', 'person_first_name': 'Juliana', 'attachment': attachment}
+            self._post_to_pooch(data)
+            pictures = self._get_pictures('Jul')
+            self.assertEqual(1, len(pictures), "Should only get 1 picture back, found %d" % len(pictures))
+        finally:
+            if attachment is not None:
+                attachment.close()
 
 
 
