@@ -27,7 +27,8 @@ except AttributeError:
 
 # View function that returns the index page for the application
 def index(request):
-    context = RequestContext(request, {})
+    pictures = Picture.objects.filter(width__gte=1000).order_by('-score').order_by('-last_modified')[:1]
+    context = RequestContext(request, {'pictures': pictures})
     return SimpleTemplateResponse(template='poochable/index.html', context=context)
 
 def browse(request):

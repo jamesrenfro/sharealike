@@ -23,11 +23,7 @@ AWS_ACCESS_KEY_ID =
 AWS_SECRET_ACCESS_KEY = 
 
 # These settings will use S3 to store your original pictures as well as your thumbnails.
-# Comment them out if you don't intend to use AWS
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-## See s3utils.py for explanation
-DEFAULT_FILE_STORAGE = 'poochable.s3utils.MediaRootS3BotoStorage'
-STATICFILES_STORAGE = 'poochable.s3utils.StaticRootS3BotoStorage'
+# Uncomment them if you intend to use AWS
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
