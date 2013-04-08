@@ -56,7 +56,7 @@ class AbstractEntityModel(models.Model):
 # Defines an entity 'Dog' that belongs to a Person (many-to-one) and can have 0 or more 
 # Pictures (one-to-many) via standard foreign key relationships. 
 class Dog(AbstractEntityModel):
-    name = fields.CharField(max_length=255, blank=True, null=True, db_index=False)  # allow empty dog names, this field will not be indexed
+    name = fields.CharField(max_length=255, blank=False, null=False, db_index=False)  # allow empty dog names, this field will not be indexed
     owner = models.ForeignKey('Person', null=False, db_index=True)
 
     def get_search_term(self):

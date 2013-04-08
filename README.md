@@ -25,8 +25,11 @@ Share pictures of your dog!
 
 ## Troubleshooting pillow/PIL installation
 
-	Doesn't seem to be straightforward to install pillow on all environments.
-	The following may be helpful if you jpeg dependency is not being found on ubuntu:
+	Doesn't seem to be straightforward to install pillow on all environments. On
+	my local development environment it turned out to be easiest to just use
+	apt-get to install, but on EC2 ubuntu was able to get it working using
+	virtualenv with the following help from stackoverflow.com:
+	
 	[http://stackoverflow.com/questions/4632261/pil-jpeg-library-help]
 
 

@@ -1,11 +1,13 @@
+// Pure JQuery
 $(document).ready(
 		function() {
 			var app = {};
 			app.clear_modal = function() {
-				var modal = $('#add-picture-dialog');
-				modal.find('.control-group').removeClass('error');
-				modal.find('.help-inline').remove();
-				modal.find('form')[0].reset();
+				var $dialog = $('#add-picture-dialog');
+				$dialog.find('.control-group').removeClass('error');
+				$dialog.find('.help-inline').remove();
+				$dialog.find('form')[0].reset();
+				$dialog.find(':input').disabled=false;
 			};
 			app.bad_request = function(jqXHR, textStatus, errorThrown) {
 				var modal = $('#add-picture-dialog');
@@ -28,7 +30,7 @@ $(document).ready(
 				var source = $("#add-picture-dialog-alert-template").html();
 				var template = Handlebars.compile(source);
 				var $notification = $("#picture-dialog-notification");
-				$notification.html(template);
+				$notification.html(template({}));
 			};
 			app.search = function() {
 				var data = $('#search-form').serialize();
@@ -68,9 +70,10 @@ $(document).ready(
 					data.append('attachment', file);
 				});
 				jQuery.each(modal.find(':input'), function(i, input) {
-					var el = $(input);
-					var name = el.attr('name');
-					var value = el.val();
+					var $input = $(input);
+					$input.disabled = true;
+					var name = $input.attr('name');
+					var value = $input.val();
 					data.append(name, value);
 				});
 

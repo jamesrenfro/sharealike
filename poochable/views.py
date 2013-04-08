@@ -97,6 +97,11 @@ def extract_form_field_value(form, field_name):
         
     return value
 
+# TODO: Posting a new picture is very slow with S3 on EC2 -- probably combination of data
+#       transfer to application server and then from application server to S3, and 
+#       also thumbnail generation (the thumbnail generation could easily be async using Celery) 
+#       but it might also be possible to handle this whole function as a Celery.task 
+#
 # TODO: Think about whether it's worth making this all happen in a single transaction, which may 
 #       lead to database connections being held longer but would obviously ensure transactional 
 #       consistency and avoid orphaned records (particularly problematic for the indexes)
