@@ -1,14 +1,20 @@
 {% load thumbnail %}
 <div class="container">
 	<br></br>
-	<br></br>
 	{% if pictures %}
-	    <div class="row">
-	    {% for picture in pictures %}
-	        <a href="/pooch/{{ picture.id }}" data-toggle="lightbox" data-target="#post-picture-lightbox"><div class="span1"><img src="{{ picture.image|thumbnail_url:'avatar' }}" alt=""></div><div class="span4"><h3>{{ picture.dog.name }}</h3></div></a>
-	    {% endfor %}
-	    </div>
+		<ul class="thumbnails">
+		  {% for picture in pictures %}
+		    <li>
+		      	<a class="thumbnail" href="/pooch/{{ picture.id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">
+			        <img alt="Thumbnail of {{ picture.dog.name }}" src="{{ picture.image|thumbnail_url:'avatar' }}">
+			        <p>{{ picture.dog.name }}</p>
+		        </a>
+		    </li>
+		  {% endfor %}
+		</ul>
 	{% else %}
-	    <p>No matching results</p>
+	    <h5>No matching results . . . search for text that appears in a dog name or an owner name</h5>
 	{% endif %}
 </div>
+
+

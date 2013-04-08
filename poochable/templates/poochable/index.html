@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,17 +10,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="/static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{% static "/static/lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
     <link href="/static/css/poochable.css" rel="stylesheet" media="screen">
-    <link href="/static/lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="/static/lib/bootstrap-lightbox/css/bootstrap-lightbox.min.css" rel="stylesheet">
+    <link href="{% static "/static/lib/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet">
+	<link href="{% static "/static/lib/bootstrap-lightbox/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="/static/lib/html5shiv/js/html5shiv.js"></script>
+      <script src="{% static "/static/lib/html5shiv/js/html5shiv.js" %}"></script>
     <![endif]-->
 
-    <link rel="shortcut icon" href="/static/img/favicon.png">
+    <!-- <link rel="shortcut icon" href="/static/img/favicon.png">-->
   </head>
   <body>
 	<div id="header" class="navbar navbar-top">
@@ -30,11 +32,11 @@
     					<form id="search-form">
 	             			<input type="text" id="search-field" name="term" class="input-medium search-query" placeholder="Find a pooch" autocomplete="off">
 	             			<div class="btn-group">
-	             				<a id="search-button" class="btn"><i class="icon icon-search"></i>&nbsp;Search</a>
-		             			<!--<button type="button" id="search-button" class="btn"><i class="icon icon-search"></i>&nbsp;<span style=font-size:14pt">Search</span></button>-->
+	             				<a id="search-button" href="#search" class="btn"><i class="icon icon-search"></i>&nbsp;Search</a>
+	             				<a id="browse-button" href="#browse" class="btn"><i class="icon icon-search"></i>&nbsp;Browse</a>
 							</div>
 							<div class="btn-group">
-								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#post-picture-modal">Share pics&nbsp;<span class="icon icon-camera icon-white"></span></a>
+								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share pics&nbsp;<span class="icon icon-camera icon-white"></span></a>
 							</div>
 	         			</form>
     				</div>
@@ -43,11 +45,10 @@
 	  	</div>
 	</div>
 
-	{% load staticfiles %}
     <div id="main-carousel" class="carousel slide" data-interval="90000">
       <div class="carousel-inner">
         <div class="item active">
-          <img src="{% static "ErnestUpClose.png" %}" alt="">
+          <img src="{% static "originals/puppy.jpg" %}" alt="" class="full-screen-image">
         </div>
         <div id="search-results" class="item">
         	<div class="modal-body">
@@ -65,68 +66,123 @@
 
 	<div id="post-picture-lightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="lightbox-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
 		</div>
 		<div class="lightbox-content">
 			
 		</div>
 	</div>
     	
-	<div id="post-picture-modal" class="modal hide fade">
-		<form action="/api/pooch" method="POST" enctype="multipart/form-data">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="muted text-info">We love pics! &nbsp;<span class="icon icon-heart"></span></h4>
-		</div>
-		<div class="modal-body">
-			<div>
-				<fieldset>
-					    <div class="control-group controls controls-row">
-					    	<div class="span6">
-							    <label>Tell us about you</label>
-							    <input name="person_first_name" type="text" placeholder="First" style="width:140px;"></input>
-							    <input name="person_middle_name" type="text" placeholder="M" style="width:20px;"></input>
-							    <input name="person_last_name" type="text" placeholder="Last" style="width:140px;"></input>
-						    </div>
-					    </div>
-					    <div class="control-group controls controls-row">
-					  		<div class="span6">
-							    <label for="dog_name">... and your pooch</label>
-							    <input name="dog_name" type="text" placeholder="Enter your dog's name" required></input>
-						    </div>
-					    </div>
-					    <div class="control-group controls controls-row">
-						    <div class="span6">
-								<input name="attachment" class="attachment" type="file" required></input>
-							</div>
-						 </div>
-				</fieldset>
+	<div id="add-picture-dialog" class="modal hide fade">
+		<form id="add-picture-form">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="muted text-info">Share your pics! &nbsp;<span class="icon icon-heart"></span></h4>
 			</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
-			<button id="upload-button" class="btn btn-primary" type="button">Upload</button>
-		</div>
-		{% csrf_token %}
+			<div class="modal-body">
+				<div class="picture-dialog-content">
+					<div id="picture-dialog-notification"></div>
+				    <div class="control-group controls controls-row">
+				    	<div class="span4">
+						    <label>Tell us about you</label>
+						    <input name="person_first_name" type="text" placeholder="First" style="width:140px;"></input>
+						    <input name="person_middle_name" type="text" placeholder="M" style="width:20px;"></input>
+						    <input name="person_last_name" type="text" placeholder="Last" style="width:140px;"></input>
+					    </div>
+				    </div>
+				    <div class="control-group controls controls-row">
+				  		<div class="span6">
+						    <label for="dog_name">... and your pooch</label>
+						    <input name="dog_name" type="text" placeholder="Enter your dog's name" required></input>
+					    </div>
+				    </div>
+				    <div class="control-group controls controls-row">
+					    <div class="span4">
+							<input name="attachment" class="attachment" type="file" required></input>
+						</div>
+					 </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<button id="upload-button" class="btn btn-primary" type="button">Upload</button>
+			</div>
+			{% csrf_token %}
 		</form>
 	</div>
 
-    <script src="/static/lib/jquery/js/jquery-1.9.1.min.js"></script>
-    <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/static/lib/bootstrap-lightbox/js/bootstrap-lightbox.min.js"></script>
-
+    <script type="text/javascript" src="{% static "/static/lib/jquery/js/jquery-1.9.1.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/static/lib/bootstrap/js/bootstrap.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/lib/bootstrap-lightbox/js/bootstrap-lightbox.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/lib/underscore/js/underscore-min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/lib/backbone/js/backbone.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/lib/handlebars/js/handlebars.js" %}"></script>
+	<script id="add-picture-dialog-alert-template" type="text/x-handlebars-template">
+		<div class="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Warning!</strong> Something went seriously wrong!
+		</div>
+	</script>
 	<script type="text/javascript"><!--
+
 		$(document).ready(function() {
+			
+			var Workspace = Backbone.Router.extend({
+
+				  routes: {
+				    "browse": "browse", 
+				    "search": "search",
+				    "search/:query" : "search_for",
+				  },
+
+				  browse: function() {
+				  	var search_results = $('#search-results');
+				  	search_results.load("/browse");
+				  	if (! search_results.hasClass('active')) {
+					  $('#main-carousel').carousel('next');
+					  $('#main-carousel').carousel('pause');
+					}
+				  },
+				  
+				  search: function() {
+					var data = $('#search-form').serialize();
+					this.navigate('search/' + data);
+				  },
+				  
+				  search_for: function(query) {
+					var search_results = $('#search-results');
+				  		
+					search_results.load("/search", query);
+					if (! search_results.hasClass('active')) {
+					  $('#main-carousel').carousel('next');
+					  $('#main-carousel').carousel('pause');
+					}	  
+				  }
+
+			});
+			
+			var workspace = new Workspace;
+			Backbone.history.start();
+			
+		  	$('#add-picture-form').submit(function() {
+		  		
+		  		return false;
+		  	});
 		  	
+		  	$('#search-form').submit(function() {
+		  		workspace.navigate('#search');
+		  		return false;
+		  	});
+			
 		  	var app = {};
 		  	app.clear_modal = function() {
-		  		var modal = $('#post-picture-modal');
+		  		var modal = $('#add-picture-dialog');
 		  		modal.find('.control-group').removeClass('error');
 		  		modal.find('.help-inline').remove();
 		  		modal.find('form')[0].reset();
 		  	};
 		  	app.bad_request = function (jqXHR, textStatus, errorThrown) {
-		  		var modal = $('#post-picture-modal');
+		  		var modal = $('#add-picture-dialog');
 		  		var errors = $.parseJSON(jqXHR.responseText);
 		  		
 		  		for (var key in errors) {
@@ -137,8 +193,11 @@
 		  			el.closest('.control-group').addClass('error');
 		  		}
 		  	};
-		  	app.failure = function() {
-		  		alert('Something went seriously wrong');
+		  	app.failure = function(jqXHR, textStatus, errorThrown) {
+		  		var source   = $("#add-picture-dialog-alert-template").html();
+				var template = Handlebars.compile(source);
+				var $notification = $("#picture-dialog-notification");
+				$notification.html(template);
 		  	};
 		  	app.search = function() {
 		  		var data = $('#search-form').serialize();
@@ -151,26 +210,23 @@
 			  	}
 		  	};
 		  	app.success = function() {
-		  		$('#post-picture-modal').modal('hide');
+		  		$('#add-picture-dialog').modal('hide');
 		  	};
 		  	
-		  	$('#post-picture-modal').on('hidden', app.clear_modal);
+		  	$('#add-picture-dialog').on('hidden', app.clear_modal);
 		  	
 		  	$('#post-picture-lightbox').bind('shown', function(event) {
 		  	
 		  	});
 		  	
-		  	$('#search-button').click(function() {
-		  		app.search();
-		  	});
+// 		  	$('#search-button').click(function() {
+// 		  		app.search();
+// 		  	});
 		  	
-		  	$('#search-form').submit(function() {
-		  		app.search();
-		  		return false;
-		  	});
+
 		  	
 		  	$('#upload-button').click(function() {
-		  		var modal = $('#post-picture-modal');
+		  		var modal = $('#add-picture-dialog');
 		  		var data = new FormData();
 				jQuery.each(modal.find('.attachment')[0].files, function(i, file) {
 				    data.append('attachment', file);
@@ -208,34 +264,34 @@
 				var option = $target.data('lightbox') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data());
 				var img    = $this.attr('data-image') || false;
 				var $imgElem;
-				
-				$target
-					.find('.lightbox-content')
-					.load(href);
-		
+						
 				e.preventDefault();
 		
-				if(img)
-				{
-					$target.data('original-content', $target.find('.lightbox-content').html());
-					$target.find('.lightbox-content').html('<img border="0" src="'+img+'" />');
-				}
-		
 				$target
-					.lightbox(option)
-					.one('hide', function () 
-					{
-						$this.focus()
-					})
-					.one('hidden',function ()
-					{
-						if( img )
-						{
-							$target.find('.lightbox-content').html( $target.data('original-content') );
-							img = undefined;
-						}
-					});
+					.find('.lightbox-content')
+					.load(href, function() {
 				
+					if(img)
+					{
+						$target.data('original-content', $target.find('.lightbox-content').html());
+						$target.find('.lightbox-content').html('<img border="0" src="'+img+'" />');
+					}
+			
+					$target
+						.lightbox(option)
+						.one('hide', function () 
+						{
+							$this.focus()
+						})
+						.one('hidden',function ()
+						{
+							if( img )
+							{
+								$target.find('.lightbox-content').html( $target.data('original-content') );
+								img = undefined;
+							}
+						});
+				});
 			})
 		  	
 		});

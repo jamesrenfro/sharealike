@@ -3,15 +3,19 @@ View functions for responding to http requests. These are using Django Rest Fram
 and Response classes to isolate requests on different method types
 """
 from django.conf import settings
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import SimpleTemplateResponse
 from poochable.forms import UploadFileForm
-from poochable.models import Dog, Person, Picture, SearchIndex, SearchIndexPicture
+from poochable.models import Dog, Person, Picture, SearchIndexPicture
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 # TODO: Implement paging at some later date and remove this
 # Get the max search results from settings, or default it 
@@ -24,6 +28,11 @@ except AttributeError:
 def index(request):
     context = RequestContext(request, {})
     return SimpleTemplateResponse(template='poochable/index.html', context=context)
+
+def browse(request):
+    pictures = Picture.objects.all().order_by('score').order_by('last_modified')[:100]
+    context = RequestContext(request, {'pictures': pictures})
+    return SimpleTemplateResponse(template='poochable/search.fhtml', context=context)
 
 # View function that returns the search page that shows all the thumbnails and dog names
 def search(request):
@@ -45,9 +54,11 @@ def api_pooch_create(request):
         if form.is_valid():
             handle_new_post(form)
             return Response()
-                 
+        
+        logger.debug('Bad request error %s' % form.errors)  
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
     except:
+        logger.exception('Internal server error!')
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Helper function to perform search
