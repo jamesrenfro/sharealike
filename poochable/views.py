@@ -8,9 +8,10 @@ from django.template import RequestContext
 from django.template.response import SimpleTemplateResponse
 from poochable.forms import UploadFileForm
 from poochable.models import Dog, Person, Picture, SearchIndexPicture
+from poochable.serializers import PictureSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 import logging
 
@@ -46,21 +47,48 @@ def detail(request, picture_id):
     context = RequestContext(request, {'picture': picture})
     return SimpleTemplateResponse(template='poochable/detail.fhtml', context=context)
 
-# API function to handle POST and return JSON/XML/etc... for AJAX from client    
-@api_view(['POST'])
-def api_pooch_create(request):
-    try:
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_new_post(form)
-            return Response()
-        
-        logger.debug('Bad request error %s' % form.errors)  
-        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
-    except:
-        logger.exception('Internal server error!')
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class PoochList(APIView):
+
+    def get(self, request):
+        pictures = do_search(request)
+        serializer = PictureSerializer(pictures, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        try:
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                handle_new_post(form)
+                return Response()
+            
+            logger.debug('Bad request error %s' % form.errors)  
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            logger.exception('Internal server error!')
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+
+# API function to handle POST and return JSON/XML/etc... for AJAX from client    
+#@api_view(['POST'])
+#def api_pooch_create(request):
+#    try:
+#        form = UploadFileForm(request.POST, request.FILES)
+#        if form.is_valid():
+#            handle_new_post(form)
+#            return Response()
+#        
+#        logger.debug('Bad request error %s' % form.errors)  
+#        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+#    except:
+#        logger.exception('Internal server error!')
+#        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#@api_view(['GET'])
+#def api_pooch_search(request):
+#    pictures = do_search(request)
+#    serializer = PictureSerializer(pictures, many=True)
+#    return Response(serializer.data)
+    
 # Helper function to perform search
 def do_search(request):
     term = request.GET.get('term', '')
