@@ -1,4 +1,4 @@
 
-<img src="{{ picture.image.url }}" alt="{{ picture.dog.name }}">
+<img src="{{ picture.image.url }}" alt="{{ picture.dog.name }}" style="height:{{picture.image.height}}px;width:{{picture.image.width}}px">
 <div class="lightbox-caption"><p>{{ picture.dog.name }}</p></div>
 

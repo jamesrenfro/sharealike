@@ -145,22 +145,12 @@ LOGGING = {
     }
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_RENDERER_CLASSES': (
-#         'rest_framework.renderers.JSONRenderer',
-#     ),
-#     'DEFAULT_PARSER_CLASSES': (
-#         'rest_framework.parsers.JSONParser',
-#         'rest_framework.parsers.FormParser',
-#         'rest_framework.parsers.MultiPartParser'
-#     )
-# }
-
 THUMBNAIL_ALIASES = {
     '': {
         'avatar': {'size': (100, 100), 'crop': True},
     },
 }
+
 
 POOCHABLE_MAX_RESULTS = 500
 

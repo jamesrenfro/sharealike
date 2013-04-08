@@ -10,7 +10,18 @@ Share pictures of your dog!
 	> cd poochable
 	> source bin/activate
 	> pip install -r requirements
+	> cp poochable/local_settings.template poochable/local_settings.py
+	> edit local_settings.py as necessary, including AWS credentials, etc.
+	> python manage.py syncdb
 	> python manage.py runserver  
+
+## Configuring to use S3 and CloudFront to store and distribute images
+
+	In local_settings.py, in addition to setting up your database connection
+	parameters, you can also provide AWS credentials. If you don't already have
+	an existing S3 bucket and CloudFront distribution for this purpose, you'll
+	need to log in to the AWS Management console [https://console.aws.amazon.com]
+	and create one of each.
 
 
 ## Authors

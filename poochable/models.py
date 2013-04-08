@@ -85,8 +85,16 @@ class Person(AbstractEntityModel):
 # Defines an entity 'Picture' that belongs to a Dog (many-to-one)
 class Picture(AbstractEntityModel):
     dog = models.ForeignKey('Dog', null=False, db_index=True)
-    image = models.FileField(upload_to='originals') # using FileField instead of ImageField to avoid including PIL/Pillow as dependency
-
+    image = models.ImageField(upload_to='originals', width_field='width', height_field='height')
+    height = fields.IntegerField()
+    width = fields.IntegerField()
+    score = fields.PositiveIntegerField(blank=True, null=False, db_index=True)
+    
+    def save(self, *args, **kwargs):
+        if self.score is None:
+            self.score = 0
+        super(Picture, self).save(*args, **kwargs)
+    
     # In this version, pictures do not have their own search terms, 
     # but it may be useful to add a caption in a later version
     def get_search_term(self):
