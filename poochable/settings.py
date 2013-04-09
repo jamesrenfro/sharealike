@@ -3,7 +3,23 @@
 import os
 
 PROJECT_DIR = os.path.dirname(__file__)
-PUBLIC_DIR = os.path.join(PROJECT_DIR, 'public')
+PUBLIC_DIR = os.path.join(PROJECT_DIR, '../public')
+
+DEFAULT_SQLITE_PATH = os.path.join(PROJECT_DIR, '../poochable.sqlite.db')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DEFAULT_SQLITE_PATH,                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# Dummy secret key -- override in local_settings!
+SECRET_KEY = '1234567890'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,7 +33,7 @@ MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -44,7 +60,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = "os.path.join(PUBLIC_DIR, 'media')"
+MEDIA_ROOT = os.path.join(PUBLIC_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -168,8 +184,7 @@ THUMBNAIL_ALIASES = {
 }
 
 POOCHABLE_MAX_RESULTS = 500
-
-USE_CELERY = True
+USE_CELERY = False
 
 ## Set the DATABASES and SECRET_KEY in a local_settings.py file
 ## You may want to also override LOGGINGs

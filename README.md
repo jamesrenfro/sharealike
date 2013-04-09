@@ -5,15 +5,24 @@ Share pictures of your dog!
 
 ## Quick start
 
+	This will start the app using a sqlite database under the top-level project directory, and store
+	uploaded files under a local directory called 'public/media/originals'.
+
 	> git clone https://github.com/jamesrenfro/poochable.git
 	> virtualenv poochable
 	> cd poochable
 	> source bin/activate
 	> pip install -r requirements
-	> cp poochable/local_settings.template poochable/local_settings.py
-	> edit local_settings.py as necessary, including AWS credentials, etc.
 	> python manage.py syncdb
 	> python manage.py runserver  
+
+
+	You can also do the following, before starting the server, to add your own settings, start up using Celery, use Postgres as your database, etc. 
+
+	Optional Step:
+	> cp poochable/local_settings.template poochable/local_settings.py
+	> edit local_settings.py as necessary, including AWS credentials, etc.
+
 
 ## Configuring to use S3 and CloudFront to store and distribute images
 

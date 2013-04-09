@@ -5,6 +5,7 @@ lib
 
 local
 build
+public
 
 # PyDev
 .Python
@@ -16,3 +17,5 @@ build
 *.pot
 *.pyc
 local_settings.py
+
+poochable.sqlite.db
