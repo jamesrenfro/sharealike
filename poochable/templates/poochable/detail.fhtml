@@ -1,4 +1,4 @@
 
-<img src="{{ picture.image.url }}" alt="{{ picture.dog.name }}" style="height:{{picture.image.height}}px;width:{{picture.image.width}}px">
+<img src="{{ picture.image.url }}" alt="{{ picture.dog.name }}">
 <div class="lightbox-caption"><h3>{{ picture.dog.name }}</h3><p>Posted {{ picture.created }} {% if picture.dog.owner.first_name %} by {{ picture.dog.owner.first_name }}{% endif %}</p></div>
 

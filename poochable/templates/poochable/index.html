@@ -11,7 +11,7 @@
     <meta name="author" content="">
 
     <link href="{% static "/static/lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
-    <link href="/static/css/poochable.css" rel="stylesheet" media="screen">
+    <link href="{% static "/static/css/poochable.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "/static/lib/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet">
 	<link href="{% static "/static/lib/bootstrap-lightbox/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
 	
@@ -134,6 +134,6 @@
 			</a>
 		</li>
 	</script>
-	<script type="text/javascript" src="/static/js/poochable.jq.js"></script>
+	<script type="text/javascript" src="{% static "/static/js/poochable.jq.js" %}"></script>
   </body>
 </html>

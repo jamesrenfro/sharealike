@@ -1,7 +1,7 @@
 from celery import task, Celery
 from poochable.models import Dog, Person, Picture, SearchIndexPicture
 
-celery = Celery('tasks', broker='amqp://guest@localhost//')
+celery = Celery('tasks')
 
 # TODO: Posting a new picture is very slow with S3 on EC2 -- probably combination of data
 #       transfer to application server and then from application server to S3, and 

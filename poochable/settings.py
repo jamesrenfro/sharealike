@@ -17,7 +17,7 @@ MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'djcelery',
     'easy_thumbnails',
     'rest_framework',
     'poochable'
@@ -166,8 +167,9 @@ THUMBNAIL_ALIASES = {
     },
 }
 
-
 POOCHABLE_MAX_RESULTS = 500
+
+USE_CELERY = True
 
 ## Set the DATABASES and SECRET_KEY in a local_settings.py file
 ## You may want to also override LOGGINGs

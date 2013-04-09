@@ -3,6 +3,7 @@ Django == 1.5
 djangorestframework == 2.2.6
 django-storages == 1.1.8
 easy-thumbnails == 1.2
-pillow
+#pillow
 boto == 2.8.0
 mock
+django-celery

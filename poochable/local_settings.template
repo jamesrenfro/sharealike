@@ -16,6 +16,9 @@ SECRET_KEY =
 MEDIA_ROOT = 
 STATICFILES_DIRS =
 
+# For RabbitMQ/Celery configuration
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
 # To enable S3 / CloudFront, provide your S3 bucket, cloudfront domain, and your AWS credentials
 AWS_STORAGE_BUCKET_NAME = 
 AWS_S3_CUSTOM_DOMAIN = 'sXXXXX.cloudfront.net'
@@ -27,3 +30,8 @@ AWS_SECRET_ACCESS_KEY =
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# Make non-debug, since celery has memory leaks in Debug mode
+ALLOWED_HOSTS = ['127.0.0.1']
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
