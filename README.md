@@ -23,6 +23,18 @@ Share pictures of your dog!
 	need to log in to the AWS Management console [https://console.aws.amazon.com]
 	and create one of each.
 
+## Configuring to use Celery as a distributed task queue
+
+	You'll need to add the setting USE_CELERY=True to your settings.py (or your
+	local_settings.py). You may also want to configure the BROKER_URL for a non-guest
+ 	user, though it's easier to start up as guest initially. To run celery as a daemon 
+	process you'll want to follow these directions: [http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html] 
+	It may be tricky to get the file permissions right if you run celeryd talking
+	to a sqlite3 db, but if you use postgres (or mysql, etc...) you shouldn't have
+	any problems. With sqlite3, you should be able to run celery workers at the command
+	line using the following command:
+	- python manage.py celery worker --loglevel=info
+
 ## Troubleshooting pillow/PIL installation
 
 	Doesn't seem to be straightforward to install pillow on all environments. On
