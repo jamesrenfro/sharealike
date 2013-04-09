@@ -17,11 +17,10 @@ Share pictures of your dog!
 	> python manage.py runserver  
 
 
-	You can also do the following, before starting the server, to add your own settings, start up using Celery, use Postgres as your database, etc. 
+	You can also do the following, before starting the server, to add your own settings, start up using Celery, 
+	use Postgres as your database, etc. 
 
-	Optional Step:
 	> cp poochable/local_settings.template poochable/local_settings.py
-	> edit local_settings.py as necessary, including AWS credentials, etc.
 
 
 ## Configuring to use S3 and CloudFront to store and distribute images
@@ -37,7 +36,7 @@ Share pictures of your dog!
 	You'll need to add the setting USE_CELERY=True to your settings.py (or your
 	local_settings.py). You may also want to configure the BROKER_URL for a non-guest
  	user, though it's easier to start up as guest initially. To run celery as a daemon 
-	process you'll want to follow these directions: [http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html] 
+	process you'll want to follow these directions: [http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html](http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html) 
 	It may be tricky to get the file permissions right if you run celeryd talking
 	to a sqlite3 db, but if you use postgres (or mysql, etc...) you shouldn't have
 	any problems. With sqlite3, you should be able to run celery workers at the command
