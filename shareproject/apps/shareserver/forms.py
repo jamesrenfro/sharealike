@@ -4,7 +4,6 @@ into fields and files that can be manipulated on the server.
 """
 from django import forms
 
-# 
 class PictureForm(forms.Form):
     person_first_name = forms.CharField(max_length=75, required=False)
     person_middle_name = forms.CharField(max_length=75, required=False)

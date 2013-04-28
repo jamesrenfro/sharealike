@@ -7,10 +7,10 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import SimpleTemplateResponse
-from poochable.forms import PictureForm
-from poochable.models import Dog, Person, Picture, SearchIndexPicture
-from poochable.serializers import PictureSerializer
-from poochable.tasks import handle_new_post
+from shareserver.forms import PictureForm
+from shareserver.models import Dog, Person, Picture, SearchIndexPicture
+from shareserver.serializers import PictureSerializer
+from shareserver.tasks import handle_new_post
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -37,24 +37,24 @@ except AttributeError:
 def index(request):
     pictures = Picture.objects.filter(width__gte=1000).order_by('-score').order_by('-last_modified')[:1]
     context = RequestContext(request, {'pictures': pictures})
-    return SimpleTemplateResponse(template='poochable/index.html', context=context)
+    return SimpleTemplateResponse(template='shareserver/index.html', context=context)
 
 def browse(request):
     pictures = Picture.objects.all().order_by('-score').order_by('-last_modified')[:100]
     context = RequestContext(request, {'pictures': pictures})
-    return SimpleTemplateResponse(template='poochable/search.fhtml', context=context)
+    return SimpleTemplateResponse(template='shareserver/search.fhtml', context=context)
 
 # View function that returns the search page that shows all the thumbnails and dog names
 def search(request):
     pictures = do_search(request)
     context = RequestContext(request, {'pictures': pictures})
-    return SimpleTemplateResponse(template='poochable/search.fhtml', context=context)
+    return SimpleTemplateResponse(template='shareserver/search.fhtml', context=context)
 
 # View function that returns the detail page for the lightbox
 def detail(request, picture_id):
     picture = get_object_or_404(Picture, pk=picture_id)
     context = RequestContext(request, {'picture': picture})
-    return SimpleTemplateResponse(template='poochable/detail.fhtml', context=context)
+    return SimpleTemplateResponse(template='shareserver/detail.fhtml', context=context)
 
 # API view class (see http://django-rest-framework.org/api-guide/views.html) 
 class PoochList(APIView):

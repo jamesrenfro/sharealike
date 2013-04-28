@@ -1,9 +1,11 @@
-# Requirements for Poochable 
+# Requirements 
+boto == 2.8.0
 Django == 1.5
+django-celery
+django-compressor==1.2
 djangorestframework == 2.2.6
 django-storages == 1.1.8
-easy-thumbnails == 1.2
+#easy-thumbnails == 1.2
 #pillow
-boto == 2.8.0
 mock
-django-celery
+South==0.7.6

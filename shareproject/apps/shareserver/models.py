@@ -7,8 +7,6 @@ Model class.
 from django.db import models
 from django.db.models import fields
 
-import easy_thumbnails
-
 
 # This class defines common fields and behavior for all "entity" models, 
 # such as Dog, Person, etc...
@@ -87,11 +85,12 @@ class Person(AbstractEntityModel):
 # Defines an entity 'Picture' that belongs to a Dog (many-to-one)
 class Picture(AbstractEntityModel):
     dog = models.ForeignKey('Dog', null=False, db_index=True)
-    image = models.ImageField(upload_to='originals', width_field='width', height_field='height')
+    image = models.FileField(upload_to='originals')
     #thumbnail = easy_thumbnails.fields.ThumbnailerImageField()
-    height = fields.IntegerField()
-    width = fields.IntegerField()
+    height = models.IntegerField(null=True)
+    width = models.IntegerField(null=True)
     score = fields.PositiveIntegerField(blank=True, null=False, db_index=True)
+    
     
     def save(self, *args, **kwargs):
         if self.score is None:

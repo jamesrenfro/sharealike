@@ -1,9 +1,6 @@
-"""
-URLconf to control which urls map to which view functions (or view classes)
-"""
-from django.conf import settings
+""" Configuration file to control which urls map to which view functions (or view classes) """
 from django.conf.urls import patterns, url
-from poochable import views
+from shareproject.apps.shareserver import views
 
 urlpatterns = patterns('',
     # Top level index page for the application
@@ -16,9 +13,4 @@ urlpatterns = patterns('',
     url(r'^pooch/(\d+)$', views.detail, name='detail'),
     # REST API resource 'pooch' maps to a class-based view (to handle GET, POST, DELETE, etc...)
     url(r'^api/pooch$', views.PoochList.as_view()),
-    
-    # Django can serve media files in the development environment, but this will not be used 
-    # when deployed to the server, since Apache (or AWS CloudFront) will take care of distributing
-    # media files
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )

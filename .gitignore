@@ -6,6 +6,7 @@ lib
 local
 build
 public
+media
 
 # PyDev
 .Python
@@ -18,4 +19,4 @@ public
 *.pyc
 local_settings.py
 
-poochable.sqlite.db
+shareserver.sqlite.db

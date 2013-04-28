@@ -1,5 +1,5 @@
 from celery import task, Celery
-from poochable.models import Dog, Person, Picture, SearchIndexPicture
+from shareserver.models import Dog, Person, Picture, SearchIndexPicture
 
 celery = Celery('tasks')
 

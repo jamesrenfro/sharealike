@@ -5,15 +5,15 @@
   <head>
     <!-- Bootstrap -->
     <meta charset="utf-8">
-    <title>Poochable, adorable pics of your dog!</title>
+    <title>Sharealike</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="{% static "/static/lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "/static/css/poochable.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "/static/lib/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet">
-	<link href="{% static "/static/lib/bootstrap-lightbox/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
+    <link href="{% static "/static/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "/static/shareserver/css/poochable.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "/static/vendor/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet">
+	<link href="{% static "/static/vendor/bootstrap-lightbox/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -27,19 +27,50 @@
 		<div id="header" class="navbar navbar-top">
 	  		<div class="navbar-inner">
 	    		<div class="container container-full-width">
+	    			<a href="/" class="brand">Sharealike</a>
+	    			<ul class="nav">
+	    				<li>
+	    					<div>
+	    						<i class="icon icon-search"></i>
+		    					<input type="text" id="search-field" name="term" class="input-medium" placeholder="Find by post or person" autocomplete="off">
+		    				</div>
+	    				</li>
+	    				<li>
+	    					<div class="btn-group">
+		             			<button id="search-button" type="submit" class="btn">Search</button>
+		             			<button id="browse-button" type="button" class="btn">Browse</button>
+								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
+							</div>
+						</li>
+	    			</ul>
+	    			<ul class="nav pull-right">
+	    				<li>
+	    					<div class="btn-group">
+			    				<a class="btn" id="sign-in-button">Sign in</a>
+			    				<a class="btn" id="sign-up-button">Sign up</a>
+			    			</div>
+		    			</li>
+	    			</ul>
+	    			
+<!-- 	    			
 	    			<div class="row">
-	    				<div class="span3"><a href="/" class="brand">Poochable</a></div>
-	    				<div class="span8 pull-right">
-	             			<input type="text" id="search-field" name="term" class="input-medium search-query" placeholder="Find a pooch" autocomplete="off">
-	             			<div class="btn-group">
-	             				<button id="search-button" type="submit" class="btn"><i class="icon icon-search"></i>&nbsp;Search</button>
-	             				<button id="browse-button" type="button" class="btn"><i class="icon icon-search"></i>&nbsp;Browse</button>
-							</div>
-							<div class="btn-group">
-								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share pics&nbsp;<span class="icon icon-camera icon-white"></span></a>
-							</div>
+	    				<div class="span3"><a href="/" class="brand">Sharealike</a></div>
+	    				<div class="sharealike-button-bar span8 collapse in">
+		    				<span>
+		             			<input type="text" id="search-field" name="term" class="input-medium" placeholder="Find by post or person" autocomplete="off">
+		             		</span>
+		             		<span>
+		             			<div class="btn-group">
+		             				<button id="search-button" type="submit" class="btn"><i class="icon icon-search"></i>&nbsp;Search</button>
+		             				<button id="browse-button" type="button" class="btn"><i class="icon icon-eye-open"></i>&nbsp;Browse</button>
+									<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
+									
+								</div>
+								
+							</span>
 	    				</div>
 	    			</div>
+ -->
 	    		</div>
 		  	</div>
 		</div>
@@ -81,7 +112,7 @@
 		<form id="add-picture-form">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="muted text-info">Share your pics! &nbsp;<span class="icon icon-heart"></span></h4>
+				<h4 class="muted text-info">Share images</h4>
 			</div>
 			<div class="modal-body">
 				<div class="picture-dialog-content">
@@ -115,12 +146,12 @@
 		</form>
 	</div>
 
-    <script type="text/javascript" src="{% static "/static/lib/jquery/js/jquery-1.9.1.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "/static/lib/bootstrap/js/bootstrap.min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/lib/bootstrap-lightbox/js/bootstrap-lightbox.min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/lib/underscore/js/underscore-min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/lib/backbone/js/backbone.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/lib/handlebars/js/handlebars.js" %}"></script>
+    <script type="text/javascript" src="{% static "/static/vendor/jquery/js/jquery-1.9.1.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "/static/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/vendor/bootstrap-lightbox/js/bootstrap-lightbox.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/vendor/underscore/js/underscore-min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/vendor/backbone/js/backbone.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/vendor/handlebars/js/handlebars.js" %}"></script>
 	<script id="add-picture-dialog-alert-template" type="text/x-handlebars-template">
 		<div class="alert">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -134,6 +165,6 @@
 			</a>
 		</li>
 	</script>
-	<script type="text/javascript" src="{% static "/static/js/poochable.jq.js" %}"></script>
+	<script type="text/javascript" src="{% static "/static/shareserver/js/poochable.jq.js" %}"></script>
   </body>
 </html>

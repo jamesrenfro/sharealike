@@ -1,7 +1,7 @@
-Poochable
+Sharealike
 =========
 
-Share pictures of your dog!
+Share pictures with everybody!
 
 ## Quick start
 
@@ -20,7 +20,7 @@ uploaded files under a local directory called 'public/media/originals'.
 You can also do the following, before starting the server, to add your own settings, start up using Celery, 
 use Postgres as your database, etc. 
 
-	> cp poochable/local_settings.template poochable/local_settings.py
+	> cp sharealike/local_settings.txt sharealike/local_settings.py
 
 
 ## Configuring to use S3 and CloudFront to store and distribute images
@@ -51,6 +51,14 @@ apt-get to install, but on EC2 ubuntu was able to get it working using
 virtualenv with the following help from stackoverflow.com:
 	
 [http://stackoverflow.com/questions/4632261/pil-jpeg-library-help](http://stackoverflow.com/questions/4632261/pil-jpeg-library-help)
+
+
+## Project structure acknowledgements
+
+Project structure is mostly inherited from https://github.com/rdegges/django-skel and https://github.com/integricho/django-skel-modular-js-example  
+thanks to https://github.com/rdegges and https://github.com/integricho 
+
+This is worth reading: http://integricho.github.io/2013/04/10/django-and-modular-js/
 
 
 ## Authors

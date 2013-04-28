@@ -3,8 +3,8 @@ from django.core.files.storage import FileSystemStorage
 from django.db import IntegrityError
 from django.test import TestCase
 from django.test.client import Client, MULTIPART_CONTENT
-from poochable.forms import PictureForm
-from poochable.models import Dog, Person, Picture
+from shareserver.forms import PictureForm
+from shareserver.models import Dog, Person, Picture
 
 import mock
 import os  

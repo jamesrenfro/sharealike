@@ -4,7 +4,14 @@ html {
 body {
 	background-color: LemonChiffon;
 	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
 	padding-bottom: 60px;
+}
+
+@media (max-width: 767px)
+body {
+	padding: 0xp 0px !important;	
 }
 
 form {
@@ -17,17 +24,20 @@ input[type="file"] {
 
 input#search-field {
 	margin-top: 5px;
-	width: 320px;
+	width: 160px;
 }
 
 ul {
 	list-style: disc;
 }
 
-/* Custom container */
-/*.container {
- 	margin: 0 20px;
-}*/
+ul.nav li {
+	padding: 0px 5px;
+}
+
+.brand {
+	margin: 0px 10px;	
+}
 
 .container>hr {
 	margin: 60px 0;
@@ -87,6 +97,10 @@ ul {
 
 .picture-dialog-content {
 	overflow-x: hidden
+}
+
+.sharealike-button-bar {
+	padding: 0px 10px;	
 }
 
 .thumbnail {
