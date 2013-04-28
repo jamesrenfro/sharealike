@@ -12,7 +12,7 @@
 
     <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "/static/shareserver/css/sharealike.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap-responsive.css" %}" rel="stylesheet">
+    
 	<link href="{% static "/static/lib/bootstrap-lightbox/build/bootstrap-lightbox.css" %}" rel="stylesheet">
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -27,7 +27,7 @@
 		<div id="header" class="navbar navbar-top">
 	  		<div class="navbar-inner">
 	    		<div class="container container-full-width">
-	    			<a href="/" class="brand">Sharealike - communal blogging</a>
+	    			<a href="/" class="brand">Sharealike - photo sharing</a>
 	    			<ul class="nav">
 	    				<li>
 	    					<div>
@@ -43,6 +43,7 @@
 							</div>
 						</li>
 	    			</ul>
+	    			<!-- 
 	    			<ul class="nav pull-right">
 	    				<li>
 	    					<div class="btn-group">
@@ -51,6 +52,7 @@
 			    			</div>
 		    			</li>
 	    			</ul>
+	    			 -->
 	    		</div>
 		  	</div>
 		</div>
@@ -65,13 +67,7 @@
 		        {% endfor %}
 	        {% endif %}
 	        <div id="search-results" class="item">
-	        	<div class="modal-body">
-	        		<div class="thumbnail-container">
-						<ul class="thumbnails">
-						
-						</ul>
-					</div>
-	        	</div>
+
 	        </div>
 	      </div>
 	    </div>
@@ -129,20 +125,26 @@
 		</div>
 	</script>
 	<script id="search-result-template" type="text/x-handlebars-template">
-		<li>
-			<a class="thumbnail" data-toggle="lightbox" href="#lightbox-{{ id }}">
-				<img alt="Thumbnail of {{ share_title }}" src="{{ url }}"> <p>{{ share_title }}</p>
-			</a>
-			<div id="lightbox-{{ id }}" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-				<div class='lightbox-header'>
-					<button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
-				</div>
-				<div class='lightbox-content'>
-					<img src="{{ url }}">
-					<div class="lightbox-caption"><p>{{ share_title }}</p></div>
-				</div>
-			</div>
-		</li>
+		<div class="thumbnail-container">
+			<ul class="thumbnails">
+				{{#each results}}			
+				<li>
+					<a class="thumbnail" data-toggle="lightbox" href="#lightbox-{{ id }}">
+						<img alt="Thumbnail of {{ share_title }}" src="{{ url }}"> <p>{{ share_title }}</p>
+					</a>
+					<div id="lightbox-{{ id }}" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class='lightbox-header'>
+							<button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
+						</div>
+						<div class='lightbox-content'>
+							<img src="{{ url }}">
+							<div class="lightbox-caption"><h4>{{ share_title }}</h4><p>{{ share_content }}</p></div>
+						</div>
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
 	</script>
 	{% endverbatim %}
 	<script data-main="{% static "/static/shareserver/js/index.js" %}" src="{% static "/static/lib/requirejs/require.js" %}"></script>

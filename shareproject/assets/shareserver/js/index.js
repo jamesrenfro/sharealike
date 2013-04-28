@@ -9,7 +9,7 @@ requirejs.config({
         share_dialog: 'shareserver/js/views/share-dialog',
         share_model: 'shareserver/js/models/share-model',
         share_collection: 'shareserver/js/models/share-collection',
-        share_router: 'shareserver/js/routes/router',
+        share_router: 'shareserver/js/routers/share-router',
         share_search_form: 'shareserver/js/views/share-search-form',
         share_search_results: 'shareserver/js/views/share-search-results',
         underscore: 'lib/underscore-amd/underscore'
@@ -24,6 +24,7 @@ requirejs.config({
 });
 
 requirejs([
+    'share_router',
 	'share_dialog',
     'share_collection',
     'share_search_form',
@@ -32,30 +33,11 @@ requirejs([
     'handlebars',
     'bootstrap',
     'bootstrap_lightbox'
-], function (ShareDialog, ShareModelCollection, ShareSearchForm, ShareSearchResults, Backbone, Handlebars, bootstrap, bootstrap_lightbox) {
+], function (ShareRouter, ShareDialog, ShareModelCollection, ShareSearchForm, ShareSearchResults, Backbone, Handlebars, bootstrap, bootstrap_lightbox) {
     
     Backbone.Mediator = {};
     _.extend(Backbone.Mediator, Backbone.Events);
               
-    var ShareRouter = Backbone.Router.extend({
-
-        routes: {
-            "browse":               "browse",  // #browse
-            "search":               "search",  // #search
-            "search/:query":        "search",  // #search/joe
-            "search/:query/p:page": "search"   // #search/joe/p7
-        },
-
-        browse: function() {
-            Backbone.Mediator.trigger('onBrowse');
-        },
-
-        search: function(query, page) {
-            Backbone.Mediator.trigger('onSearch', query);
-        }
-
-    });
-        
     $(function() {
         var router = new ShareRouter();
     

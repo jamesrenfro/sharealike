@@ -14,13 +14,17 @@ require.config({
         share_model_test: '../tests/models/share-model.test',
         share_results: '../js/views/share-search-results',
         share_results_test:  '../tests/views/share-search-results.test',
+        share_router: '../js/routers/share-router',
+        share_router_test:  '../tests/routers/share-router.test',
+        share_search_form: '../js/views/share-search-form',
+        share_search_form_test:  '../tests/views/share-search-form.test',
 		testem: '/testem',
 		underscore: '../../lib/underscore-amd/underscore'
 	},
     shim: {
     	'backbone':{deps: ['underscore']},
         'bootstrap':{deps: ['jquery']},
-        'bootstrap':{deps: ['jquery','bootstrap']},
+        'bootstrap_lightbox':{deps: ['jquery','bootstrap']},
         'chai':{deps: ['mocha']},
         'underscore':{deps: []}
     }
@@ -43,6 +47,8 @@ require([ 'require', 'chai', 'mocha','testem' ], function(require, chai) {
         'share_dialog_test',
         'share_model_test', 
         'share_results_test', 
+        'share_router_test',
+        'share_search_form_test',
     ], function(ShareCollectionTest, ShareDialogTest, ShareModelTest, ShareResultsTest) {
 		// Start runner
 		mocha.run();

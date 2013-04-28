@@ -16,9 +16,12 @@ define(['backbone'], function (Backbone) {
         onSubmit: function(event) {
             var term = $(event.currentTarget).find(":input").val();
             var fragment = 'search';
-            if (term != null && term != '') 
+            if (term != null && term != '') {
                 fragment += '/' + term;
-            this.attributes.router.navigate(fragment, {trigger: true});
+                this.attributes.router.navigate(fragment, {trigger: true});
+            } else {
+                this.attributes.router.navigate('blank', {trigger:true});
+            }
             return false;
         },
                 

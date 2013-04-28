@@ -2,9 +2,15 @@ define(['share_collection'], function (ShareModelCollection) {
 	var ShareSearchResults = Backbone.View.extend({
 
         initialize: function() {
+            this.listenTo(Backbone.Mediator, 'onBlank', this.onBlank);
             this.listenTo(Backbone.Mediator, 'onBrowse', this.onBrowse);
             this.listenTo(Backbone.Mediator, 'onSearch', this.onSearch);
             this.listenTo(Backbone.Mediator, 'results', this.onResults);
+        },
+        
+        onBlank: function() {
+            this.attributes.results = [];
+            this.render();
         },
         
         onBrowse: function() {
@@ -32,12 +38,9 @@ define(['share_collection'], function (ShareModelCollection) {
         },
         
         render: function() {
-            var $thumbnails = this.$el.find('ul.thumbnails');
-            $thumbnails.empty();
             var resultTemplate = this.attributes.resultTemplate;
-            $.each(this.attributes.results, function(i, model) {
-                $thumbnails.append(resultTemplate(model));
-            });
+            var results = { 'results' : this.attributes.results };
+            this.$el.html(resultTemplate(results));
         }
         
     });

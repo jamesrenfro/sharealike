@@ -19,6 +19,12 @@ define(['share_model'], function (ShareModel) {
             this.upload(this.model);
 		},
         
+        initialize: function() {
+            this.titleInput = this.$('#share-title');
+			this.contentInput = this.$('#share-content');
+            this.attachmentInput = this.$('#share-attachment');
+        },
+        
         onComplete: function() {
             // Hide the dialog
 			$('#share-dialog').modal('hide');
@@ -43,10 +49,7 @@ define(['share_model'], function (ShareModel) {
 
 		render: function() {
 			this.model = new ShareModel();
-			this.titleInput = this.$('#share-title');
-			this.contentInput = this.$('#share-content');
-            this.attachmentInput = this.$('#share-attachment');
-            
+			
 			this.titleInput.val('');
 			this.contentInput.val('');
             this.attachmentInput.val('');
