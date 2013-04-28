@@ -38,7 +38,7 @@
 	    				<li>
 	    					<div class="btn-group">
 		             			<button id="search-button" type="submit" class="btn">Search</button>
-		             			<button id="browse-button" type="button" class="btn">Browse</button>
+		             			<button id="browse-button" type="button" class="btn browse">Browse</button>
 								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#share-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
 							</div>
 						</li>
@@ -128,7 +128,7 @@
 				    -->
 				    <div class="control-group controls controls-row">
 				  		<div class="span6">
-						    <input id="share-title" type="text" placeholder="Provide a topic" required></input>
+						    <input id="share-title" type="text" name="dog_name" placeholder="Provide a topic" required></input>
 					    </div>
 					    <div class="span6">
 					    	<textarea id="share-content" class="span5" placeholder="Share your thoughts"></textarea>
@@ -136,7 +136,7 @@
 				    </div>
 				    <div class="control-group controls controls-row">
 					    <div class="span4">
-							<input id="share-attachment" type="file" required></input>
+							<input id="share-attachment" name="attachment" type="file" required></input>
 						</div>
 					 </div>
 				</div>
@@ -149,13 +149,7 @@
 		</form>
 	</div>
 
-    <!-- <script type="text/javascript" src="{% static "/static/vendor/jquery/js/jquery-1.9.1.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "/static/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/vendor/bootstrap-lightbox/js/bootstrap-lightbox.min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/vendor/underscore/js/underscore-min.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/vendor/backbone/js/backbone.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/vendor/handlebars/js/handlebars.js" %}"></script>-->
-	<script id="share-dialog-alert-template" type="text/x-handlebars-template">
+   	<script id="share-dialog-alert-template" type="text/x-handlebars-template">
 		<div class="alert">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<strong>Warning!</strong> Something went seriously wrong!
@@ -168,8 +162,6 @@
 			</a>
 		</li>
 	</script>
-<!-- 	<script type="text/javascript" src="{% static "/static/shareserver/js/poochable.jq.js" %}"></script> -->
-	
 	<script data-main="{% static "/static/shareserver/js/index.js" %}" src="{% static "/static/lib/requirejs/require.js" %}"></script>
   </body>
 </html>

@@ -83,10 +83,12 @@ class PoochList(APIView):
     
 # Helper function to perform search
 def do_search(request):
-    term = request.GET.get('term', '')
+    term = request.GET.get('term', None)
     
     pictures = list()
-    if term != '':
+    if term is None:
+        pictures = Picture.objects.all().order_by('-score').order_by('-last_modified')[:100]
+    elif term != '':
         term = term.lower()
         # TODO: Determine if this is going to be sufficiently efficient for the expected table sizes, using a relational database.
         #       Might want to investigate using Haystack instead

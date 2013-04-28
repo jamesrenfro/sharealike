@@ -45,7 +45,8 @@ To test the client-side code you'll need to install testem
 
 	> npm install -g testem
 	
-Then do the following:
+Then do the following
+
 	> cd sharealike/shareproject/assets
 	> testem
 	

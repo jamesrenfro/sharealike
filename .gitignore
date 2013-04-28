@@ -19,4 +19,4 @@ media
 *.pyc
 local_settings.py
 
-shareserver.sqlite.db
+sharealike.sqlite.db
