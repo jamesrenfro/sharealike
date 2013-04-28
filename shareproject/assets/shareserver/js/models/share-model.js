@@ -2,7 +2,6 @@ define([
 	'backbone'
 ], function (Backbone) {
 	var ShareModel = Backbone.Model.extend({
-        urlRoot: '/api/pooch',
 		defaults : function() {
 			return {
 				title : "",

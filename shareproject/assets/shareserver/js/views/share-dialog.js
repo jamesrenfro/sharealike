@@ -22,6 +22,7 @@ define(['share_model'], function (ShareModel) {
         onComplete: function() {
             // Hide the dialog
 			$('#share-dialog').modal('hide');
+            this.attributes.router.navigate('browse', {trigger: true});
         },
         
         onFailure: function(jqXHR, textStatus, errorThrown) {
@@ -60,14 +61,14 @@ define(['share_model'], function (ShareModel) {
         upload: function(model) {
             var data = new FormData();
 			if (model.title != null)
-                data.append('dog_name', model.title);
+                data.append('share_title', model.title);
             if (model.content != null)
-                data.append('content', model.content);
+                data.append('share_content', model.content);
             if (model.attachment != null)
-                data.append('attachment', model.attachment);
+                data.append('share_attachment', model.attachment);
             
 			$.ajax({
-                url : '/api/pooch',
+                url : '/api/share',
                 data : data,
                 processData : false,
                 contentType : false,

@@ -1,12 +1,11 @@
 from celery import task, Celery
-from shareproject.apps.shareserver.models import Dog, Person, Picture, SearchIndexPicture
+from shareproject.apps.shareserver.models import Share, Person, Picture, SearchIndexPicture
 
 celery = Celery('tasks')
 
-# TODO: Posting a new picture is very slow with S3 on EC2 -- probably combination of data
-#       transfer to application server and then from application server to S3, and 
-#       also thumbnail generation (the thumbnail generation could easily be async using Celery) 
-#       but it might also be possible to handle this whole function as a Celery.task 
+# TODO: Posting a new picture is still very slow with S3 on EC2 -- probably data
+#       transfer to application server, but also the data does not seem to be streaming
+#       directly to S3 yet. 
 #
 # TODO: Think about whether it's worth making this all happen in a single transaction, which may 
 #       lead to database connections being held longer but would obviously ensure transactional 
@@ -19,8 +18,9 @@ def handle_new_post(form):
     person_first_name = extract_form_field_value(form, 'person_first_name')
     person_middle_name = extract_form_field_value(form, 'person_middle_name')
     person_last_name = extract_form_field_value(form, 'person_last_name')
-    dog_name = extract_form_field_value(form, 'dog_name')
-    attachment = form.files.get('attachment', None)
+    share_title = extract_form_field_value(form, 'share_title')
+    share_content = extract_form_field_value(form, 'share_content')
+    share_attachment = form.files.get('share_attachment', None)
 
     person = Person()
     person.first_name = person_first_name
@@ -29,23 +29,25 @@ def handle_new_post(form):
     # TODO: add modified_by for the current logged in user if a user is logged in
     person.save()
     
-    dog = Dog()
-    dog.name = dog_name
-    dog.owner = person
+    share = Share()
+    share.title = share_title
+    share.content = share_content
+    share.owner = person
     # TODO: add modified_by for the current logged in user if a user is logged in
-    dog.save()
+    share.save()
 
     picture = Picture()
-    picture.dog = dog
-    picture.image = attachment
+    picture.share = share
+    picture.image = share_attachment
+    picture.thumbnail = share_attachment
     # TODO: add modified_by for the current logged in user if a user is logged in
     picture.save()
     
-    if dog.search_index is not None:
-        dog_index_picture = SearchIndexPicture()
-        dog_index_picture.picture = picture
-        dog_index_picture.search_index = dog.search_index
-        dog_index_picture.save()
+    if share.search_index is not None:
+        share_index_picture = SearchIndexPicture()
+        share_index_picture.picture = picture
+        share_index_picture.search_index = share.search_index
+        share_index_picture.save()
 
     if person.search_index is not None:
         person_index_picture = SearchIndexPicture()
@@ -58,8 +60,5 @@ def handle_new_post(form):
 def extract_form_field_value(form, field_name):
     # Since the end user could input a blank string, let's handle no input the same
     value = form.cleaned_data.get(field_name, '')
-    # But still, we don't want to put empty strings in the database, make them null    
-    if value == '':
-        value = None
         
     return value

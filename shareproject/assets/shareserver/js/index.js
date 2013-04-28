@@ -3,6 +3,7 @@ requirejs.config({
     paths: {
     	backbone: 'lib/backbone-amd/backbone',
     	bootstrap: 'lib/bootstrap/docs/assets/js/bootstrap',
+        bootstrap_lightbox: 'lib/bootstrap-lightbox/build/bootstrap-lightbox',
     	handlebars: 'lib/handlebars/handlebars',
     	jquery: 'lib/jquery/jquery',
         share_dialog: 'shareserver/js/views/share-dialog',
@@ -16,6 +17,7 @@ requirejs.config({
     shim: {
     	'backbone':{deps: ['underscore']},
         'bootstrap':{deps: ['jquery']},
+        'bootstrap_lightbox':{deps: ['jquery','bootstrap']},
         'handlebars':{exports: 'Handlebars'},
         'underscore':{deps: []}
     }
@@ -28,8 +30,9 @@ requirejs([
     'share_search_results',
     'backbone',
     'handlebars',
-    'bootstrap'
-], function (ShareDialog, ShareModelCollection, ShareSearchForm, ShareSearchResults, Backbone, Handlebars, bootstrap) {
+    'bootstrap',
+    'bootstrap_lightbox'
+], function (ShareDialog, ShareModelCollection, ShareSearchForm, ShareSearchResults, Backbone, Handlebars, bootstrap, bootstrap_lightbox) {
     
     Backbone.Mediator = {};
     _.extend(Backbone.Mediator, Backbone.Events);
@@ -38,6 +41,7 @@ requirejs([
 
         routes: {
             "browse":               "browse",  // #browse
+            "search":               "search",  // #search
             "search/:query":        "search",  // #search/joe
             "search/:query/p:page": "search"   // #search/joe/p7
         },
@@ -56,7 +60,7 @@ requirejs([
         var router = new ShareRouter();
     
         var collection = new ShareModelCollection();
-        var dialog = new ShareDialog({el: $('#share-dialog')});
+        var dialog = new ShareDialog({el: $('#share-dialog'), attributes: { router : router } });
         var form = new ShareSearchForm({el: $('#search-form'), attributes: { router : router } });
         
         var resultTemplateSource = $("#search-result-template").html();

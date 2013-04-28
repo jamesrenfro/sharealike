@@ -20,6 +20,7 @@ require.config({
     shim: {
     	'backbone':{deps: ['underscore']},
         'bootstrap':{deps: ['jquery']},
+        'bootstrap':{deps: ['jquery','bootstrap']},
         'chai':{deps: ['mocha']},
         'underscore':{deps: []}
     }

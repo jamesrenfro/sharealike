@@ -3,7 +3,7 @@ define([
 ], function (ShareModel) {
 	var ShareModelCollection = Backbone.Collection.extend({
         model: ShareModel,
-        url: '/api/pooch'
+        url: '/api/share'
 	});
 	return ShareModelCollection;
 });

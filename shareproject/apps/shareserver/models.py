@@ -19,7 +19,7 @@ class AbstractEntityModel(models.Model):
     created = fields.DateTimeField(auto_now_add=True, blank=True, null=False, db_index=True)
     last_modified = fields.DateTimeField(auto_now=True, blank=True, null=False, db_index=True)
     is_deleted = fields.BooleanField(default=False)
-    # This will be needed when updating of Dog/Person fields is implemented, so the search terms can be synced
+    # This will be needed when updating of Share/Person fields is implemented, so the search terms can be synced
     search_index = models.ForeignKey('SearchIndex', null=True, db_index=True)
     
     # This field will need to be explicitly set before saving the child model, or it will be blank/null
@@ -51,19 +51,6 @@ class AbstractEntityModel(models.Model):
     class Meta:
         abstract = True
 
-# Defines an entity 'Share' that belongs to a Person (many-to-one) and can have 0 or more 
-# Pictures (one-to-many) via standard foreign key relationships. 
-class Share(AbstractEntityModel):
-    title = fields.CharField(max_length=255, blank=False, null=False, db_index=False)  
-    content = fields.CharField(blank=True, null=False, db_index=False)
-    owner = models.ForeignKey('Person', null=False, db_index=True)
-
-    def get_search_term(self):
-        return self.title
-
-    def __unicode__(self):
-        return '{{ "title": "{model.title}", "content": "{model.content}", "owner": {model.owner}, "created": {model.created}", "last_modified": "{model.last_modified}", "modified_by": {model.modified_by}, "is_deleted": {model.is_deleted} }}'.format(model=self);
-
 # Defines an entity 'Person' that can have 0 or more Shares (one-to-many)
 class Person(AbstractEntityModel):
     first_name = fields.CharField(max_length=75, blank=True, null=True, db_index=False) # no reason to store repeated text for anonymous submissions
@@ -83,7 +70,7 @@ class Person(AbstractEntityModel):
     def __unicode__(self):
         return '{{ "first_name": "{model.first_name}", "middle_name": "{model.middle_name}", "last_name": "{model.last_name}", "created": {model.created}", "last_modified": "{model.last_modified}", "modified_by": {model.modified_by}, "is_deleted": {model.is_deleted} }}'.format(model=self);
 
-# Defines an entity 'Picture' that belongs to a Dog (many-to-one)
+# Defines an entity 'Picture' that belongs to a Share (many-to-one)
 class Picture(AbstractEntityModel):
     share = models.ForeignKey('Share', null=False, db_index=True)
     image = models.FileField(upload_to='shareserver')
@@ -112,4 +99,17 @@ class SearchIndex(models.Model):
 class SearchIndexPicture(models.Model):
     search_index = models.ForeignKey('SearchIndex', null=False, db_index=True)
     picture = models.ForeignKey('Picture', null=False, db_index=True)    
+
+# Defines an entity 'Share' that belongs to a Person (many-to-one) and can have 0 or more 
+# Pictures (one-to-many) via standard foreign key relationships. 
+class Share(AbstractEntityModel):
+    title = fields.CharField(max_length=255, blank=False, db_index=False)  
+    content = fields.CharField(max_length=2000, blank=True, db_index=False)
+    owner = models.ForeignKey('Person', db_index=True)
+
+    def get_search_term(self):
+        return self.title
+
+    def __unicode__(self):
+        return '{{ "title": "{model.title}", "content": "{model.content}", "owner": {model.owner}, "created": {model.created}", "last_modified": "{model.last_modified}", "modified_by": {model.modified_by}, "is_deleted": {model.is_deleted} }}'.format(model=self);
 

@@ -39,25 +39,8 @@ def index(request):
     context = RequestContext(request, {'pictures': pictures})
     return SimpleTemplateResponse(template='shareserver/index.html', context=context)
 
-def browse(request):
-    pictures = Picture.objects.all().order_by('-score').order_by('-last_modified')[:100]
-    context = RequestContext(request, {'pictures': pictures})
-    return SimpleTemplateResponse(template='shareserver/search.fhtml', context=context)
-
-# View function that returns the search page that shows all the thumbnails and dog names
-def search(request):
-    pictures = do_search(request)
-    context = RequestContext(request, {'pictures': pictures})
-    return SimpleTemplateResponse(template='shareserver/search.fhtml', context=context)
-
-# View function that returns the detail page for the lightbox
-def detail(request, picture_id):
-    picture = get_object_or_404(Picture, pk=picture_id)
-    context = RequestContext(request, {'picture': picture})
-    return SimpleTemplateResponse(template='shareserver/detail.fhtml', context=context)
-
 # API view class (see http://django-rest-framework.org/api-guide/views.html) 
-class PoochList(APIView):
+class ShareList(APIView):
 
     def get(self, request):
         pictures = do_search(request)
@@ -95,7 +78,7 @@ def do_search(request):
         #
         # This query results in three separate database statements -- the first is a join between SearchIndexPicture and SearchIndex.
         # The other two are SELECT IN on primary keys for Picture and Dog 
-        indices = SearchIndexPicture.objects.filter(search_index__term__contains=term).prefetch_related('picture').prefetch_related('picture__dog')[:MAX_RESULTS]
+        indices = SearchIndexPicture.objects.filter(search_index__term__contains=term).prefetch_related('picture').prefetch_related('picture__share')[:MAX_RESULTS]
         picture_ids = set()
         for index in indices:
             picture = index.picture

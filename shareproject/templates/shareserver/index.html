@@ -11,9 +11,9 @@
     <meta name="author" content="">
 
     <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "/static/shareserver/css/poochable.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "/static/shareserver/css/sharealike.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap-responsive.css" %}" rel="stylesheet">
-	<link href="{% static "/static/lib/bootstrap-lightbox/docs/assets/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
+	<link href="{% static "/static/lib/bootstrap-lightbox/build/bootstrap-lightbox.css" %}" rel="stylesheet">
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -51,26 +51,6 @@
 			    			</div>
 		    			</li>
 	    			</ul>
-	    			
-<!-- 	    			
-	    			<div class="row">
-	    				<div class="span3"><a href="/" class="brand">Sharealike</a></div>
-	    				<div class="sharealike-button-bar span8 collapse in">
-		    				<span>
-		             			<input type="text" id="search-field" name="term" class="input-medium" placeholder="Find by post or person" autocomplete="off">
-		             		</span>
-		             		<span>
-		             			<div class="btn-group">
-		             				<button id="search-button" type="submit" class="btn"><i class="icon icon-search"></i>&nbsp;Search</button>
-		             				<button id="browse-button" type="button" class="btn"><i class="icon icon-eye-open"></i>&nbsp;Browse</button>
-									<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#share-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
-									
-								</div>
-								
-							</span>
-	    				</div>
-	    			</div>
- -->
 	    		</div>
 		  	</div>
 		</div>
@@ -94,24 +74,11 @@
 	        	</div>
 	        </div>
 	      </div>
-	      <!-- 
-	      <a class="left carousel-control" href="#main-carousel" data-slide="prev">&lsaquo;</a>
-	      <a class="right carousel-control" href="#main-carousel" data-slide="next">&rsaquo;</a>
-	      -->
 	    </div>
 	</form>
 	
    	<div class="footer">
     </div>
-
-	<div id="post-picture-lightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="lightbox-header">
-			<button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
-		</div>
-		<div class="lightbox-content">
-			
-		</div>
-	</div>
     	
 	<div id="share-dialog" class="modal hide fade">
 		<form id="share-form">
@@ -161,12 +128,20 @@
 			<strong>Warning!</strong> Something went seriously wrong!
 		</div>
 	</script>
-	
 	<script id="search-result-template" type="text/x-handlebars-template">
 		<li>
-			<a class="thumbnail" href="/pooch/{{ id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">
-				<img alt="Thumbnail of {{ title }}" src="{{ url }}"> <p>{{ title }}</p>
+			<a class="thumbnail" data-toggle="lightbox" href="#lightbox-{{ id }}">
+				<img alt="Thumbnail of {{ share_title }}" src="{{ url }}"> <p>{{ share_title }}</p>
 			</a>
+			<div id="lightbox-{{ id }}" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class='lightbox-header'>
+					<button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
+				</div>
+				<div class='lightbox-content'>
+					<img src="{{ url }}">
+					<div class="lightbox-caption"><p>{{ share_title }}</p></div>
+				</div>
+			</div>
 		</li>
 	</script>
 	{% endverbatim %}

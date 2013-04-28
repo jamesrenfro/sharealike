@@ -1,10 +1,6 @@
 define(['share_collection'], function (ShareModelCollection) {
 	var ShareSearchResults = Backbone.View.extend({
 
-		events: {
-        
-		},
-        
         initialize: function() {
             this.listenTo(Backbone.Mediator, 'onBrowse', this.onBrowse);
             this.listenTo(Backbone.Mediator, 'onSearch', this.onSearch);
@@ -12,31 +8,27 @@ define(['share_collection'], function (ShareModelCollection) {
         },
         
         onBrowse: function() {
-            //this.doShow();
             Backbone.sync('read', this.collection, { success: this.onSuccess });
         },
         
         onResults: function(collection) {
-            this.doShow();
+            if (!this.$el.hasClass('active')) {
+                $('#main-carousel').carousel('next');
+                $('#main-carousel').carousel('pause');
+            }
             this.attributes.results = collection;
             this.render();
         },
         
         onSearch: function(query) {
-            //this.doShow();
-            Backbone.sync('read', this.collection, { data: { term: query }, success: this.onSuccess });
-            //this.$el.load("/search?term=" + query);
+            var data = {};
+            if (query != null && query != '')
+                data.term = query;
+            Backbone.sync('read', this.collection, { data: data, success: this.onSuccess });
         },
         
         onSuccess: function(collection) {
             Backbone.Mediator.trigger('results', collection);
-        },
-        
-        doShow: function() {
-            if (!this.$el.hasClass('active')) {
-                $('#main-carousel').carousel('next');
-                $('#main-carousel').carousel('pause');
-            }
         },
         
         render: function() {

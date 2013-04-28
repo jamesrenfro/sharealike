@@ -3,8 +3,8 @@ from django.core.files.storage import FileSystemStorage
 from django.db import IntegrityError
 from django.test import TestCase
 from django.test.client import Client, MULTIPART_CONTENT
-from shareproject.apps.shareserver.forms import PictureForm
-from shareproject.apps.shareserver.models import Dog, Person, Picture
+from shareproject.apps.shareserver.models import Share, Person
+from shareproject.apps.shareserver.serializers import PictureSerializer
 from os.path import join
 
 import mock
@@ -13,12 +13,12 @@ TEST_IMAGE_PATH = join(settings.DJANGO_ROOT, 'assets/lib/bootstrap/img/glyphicon
 
 class ModelTest(TestCase):
     
-    def _create_dog(self):
-        dog = Dog()
-        dog.name = 'Rover'
-        dog.owner = self._create_person()
-        dog.save()
-        return dog
+    def _create_share(self):
+        share = Share()
+        share.title = 'A post about me!'
+        share.owner = self._create_person()
+        share.save()
+        return share
         
     def _create_person(self):
         person = Person()
@@ -28,20 +28,20 @@ class ModelTest(TestCase):
         person.save()
         return person
 
-    def test_dog_owner_id_not_null(self):
-        dog = Dog()
-        dog.owner = Person()
-        self.assertRaises(IntegrityError, dog.save)
+    def test_share_owner_id_not_null(self):
+        share = Share()
+        share.owner = Person()
+        self.assertRaises(IntegrityError, share.save)
         
-    def test_dog_requires_name(self):
-        dog = Dog()
-        dog.name = None
-        dog.owner = self._create_person()
-        self.assertRaises(IntegrityError, dog.save)
+    def test_share_requires_name(self):
+        share = Share()
+        share.title = None
+        share.owner = self._create_person()
+        self.assertRaises(IntegrityError, share.save)
     
-    def test_dog_has_index(self):
-        dog = self._create_dog()
-        self.assertIsNotNone(dog.search_index)
+    def test_share_has_index(self):
+        share = self._create_share()
+        self.assertIsNotNone(share.search_index)
         
     def test_person_has_index(self):
         person = self._create_person()
@@ -53,53 +53,50 @@ class FormTest(TestCase):
             
 class InterfaceLevelTest(TestCase):
     
-    def _post_to_pooch(self, data, expected_status_code=200):
+    def _post_share(self, data, expected_status_code=200):
         client = Client()
-        attachment = data.get('attachment', None)
+        share_attachment = data.get('share_attachment', None)
         try:
-            response = client.post('/api/pooch', data, content_type=MULTIPART_CONTENT)
+            response = client.post('/api/share', data, content_type=MULTIPART_CONTENT)
             self.assertEqual(response.status_code, expected_status_code)
         finally:
-            if attachment is not None:
-                attachment.close()
+            if share_attachment is not None:
+                share_attachment.close()
                 
     def _get_pictures(self, term):
         client = Client()
-        response = client.get('/search', {'term':term})
+        response = client.get('/api/share', {'term':term})
         self.assertEqual(response.status_code, 200)
-        context = response.context
-        pictures = context['pictures']
-        return pictures
+        serializer = PictureSerializer(data=response.data, many=True)
+        if not serializer.is_valid():
+            errors = serializer.errors
+        
+        return serializer.object
             
     @mock.patch('storages.backends.s3boto.S3BotoStorage', FileSystemStorage)
-    def test_post_picture_with_dog_name_success(self):
+    def test_post_picture_with_share_title_success(self):
         # Important to point to a different media root otherwise we fill up our 
         # media root with test data
         with(self.settings(MEDIA_ROOT='/tmp')):
             attachment = open(TEST_IMAGE_PATH)
-            data = {'dog_name': 'Fred', 'attachment': attachment}
-            self._post_to_pooch(data)
-            pictures = self._get_pictures('Fred')
+            data = {'share_title': 'A post from me!', 'share_attachment': attachment}
+            self._post_share(data)
+            pictures = self._get_pictures('post')
             self.assertEqual(1, len(pictures), "Should be able to see the picture that was posted in search results")
-            picture = pictures[0]
-            self.assertEqual(None, picture.dog.owner.first_name)
-            self.assertEqual(None, picture.dog.owner.middle_name)
-            self.assertEqual(None, picture.dog.owner.last_name)
-            self.assertEqual('Fred', picture.dog.name)
         
     @mock.patch('storages.backends.s3boto.S3BotoStorage', FileSystemStorage)
     def test_post_picture_with_person_first_name_success(self):
         with(self.settings(MEDIA_ROOT='/tmp')):
             try:
                 attachment = open(TEST_IMAGE_PATH)
-                data = {'dog_name': 'Jules', 'person_first_name': 'Georgina', 'attachment': attachment}
-                self._post_to_pooch(data)
+                data = {'share_title': 'Something', 'person_first_name': 'Georgina', 'share_attachment': attachment}
+                self._post_share(data)
                 pictures = self._get_pictures('Georgina')
                 self.assertEqual(1, len(pictures), "Searching by person first name should bring back picture")
-                pictures = self._get_pictures('Jules')
-                self.assertEqual(1, len(pictures), "Searching by dog name should bring back picture")
-                pictures = self._get_pictures('LE')
-                self.assertEqual(1, len(pictures), "Searching by fragment of dog name should bring back picture")
+                pictures = self._get_pictures('Something')
+                self.assertEqual(1, len(pictures), "Searching by title should bring back picture")
+                pictures = self._get_pictures('thin')
+                self.assertEqual(1, len(pictures), "Searching by fragment of title should bring back picture")
                 pictures = self._get_pictures('')
                 self.assertEqual(0, len(pictures), "Searching by blank shouldn't bring back anything")
                 pictures = self._get_pictures('XYZ')
@@ -108,13 +105,13 @@ class InterfaceLevelTest(TestCase):
                 if attachment is not None:
                     attachment.close()
 
-    def test_post_picture_with_missing_dog_name_failure(self):
+    def test_post_picture_with_missing_share_title_failure(self):
         with(self.settings(MEDIA_ROOT='/tmp')):
             try:
                 attachment = open(TEST_IMAGE_PATH)
-                data = {'attachment': attachment}
-                self._post_to_pooch(data, expected_status_code=400)
-                pictures = self._get_pictures('Fred')
+                data = {'share_attachment': attachment}
+                self._post_share(data, expected_status_code=400)
+                pictures = self._get_pictures('post')
                 self.assertEqual(0, len(pictures), "Shouldn't be able to find any pictures")
             finally:
                 if attachment is not None:
@@ -124,8 +121,8 @@ class InterfaceLevelTest(TestCase):
     def test_post_pictures_tagged_twice_same_term(self):
         try:
             attachment = open(TEST_IMAGE_PATH)
-            data = {'dog_name': 'Jules', 'person_first_name': 'Juliana', 'attachment': attachment}
-            self._post_to_pooch(data)
+            data = {'share_title': 'Jules', 'person_first_name': 'Juliana', 'share_attachment': attachment}
+            self._post_share(data)
             pictures = self._get_pictures('Jul')
             self.assertEqual(1, len(pictures), "Should only get 1 picture back, found %d" % len(pictures))
         finally:
