@@ -10,10 +10,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="{% static "/static/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "/static/shareserver/css/poochable.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "/static/vendor/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet">
-	<link href="{% static "/static/vendor/bootstrap-lightbox/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
+    <link href="{% static "/static/lib/bootstrap/docs/assets/css/bootstrap-responsive.css" %}" rel="stylesheet">
+	<link href="{% static "/static/lib/bootstrap-lightbox/docs/assets/css/bootstrap-lightbox.min.css" %}" rel="stylesheet">
 	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
 		<div id="header" class="navbar navbar-top">
 	  		<div class="navbar-inner">
 	    		<div class="container container-full-width">
-	    			<a href="/" class="brand">Sharealike</a>
+	    			<a href="/" class="brand">Sharealike - communal blogging</a>
 	    			<ul class="nav">
 	    				<li>
 	    					<div>
@@ -39,7 +39,7 @@
 	    					<div class="btn-group">
 		             			<button id="search-button" type="submit" class="btn">Search</button>
 		             			<button id="browse-button" type="button" class="btn">Browse</button>
-								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
+								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#share-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
 							</div>
 						</li>
 	    			</ul>
@@ -63,7 +63,7 @@
 		             			<div class="btn-group">
 		             				<button id="search-button" type="submit" class="btn"><i class="icon icon-search"></i>&nbsp;Search</button>
 		             				<button id="browse-button" type="button" class="btn"><i class="icon icon-eye-open"></i>&nbsp;Browse</button>
-									<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#add-picture-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
+									<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#share-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
 									
 								</div>
 								
@@ -108,15 +108,15 @@
 		</div>
 	</div>
     	
-	<div id="add-picture-dialog" class="modal hide fade">
-		<form id="add-picture-form">
+	<div id="share-dialog" class="modal hide fade">
+		<form id="share-form">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="muted text-info">Share images</h4>
+				<h4 class="muted text-info">Post something</h4>
 			</div>
 			<div class="modal-body">
 				<div class="picture-dialog-content">
-					<div id="picture-dialog-notification"></div>
+					<div id="picture-dialog-notification"></div><!--
 				    <div class="control-group controls controls-row">
 				    	<div class="span4">
 						    <label>Tell us about you</label>
@@ -125,15 +125,18 @@
 						    <input name="person_last_name" type="text" placeholder="Last" style="width:140px;"></input>
 					    </div>
 				    </div>
+				    -->
 				    <div class="control-group controls controls-row">
 				  		<div class="span6">
-						    <label for="dog_name">... and your pooch</label>
-						    <input name="dog_name" type="text" placeholder="Enter your dog's name" required></input>
+						    <input id="share-title" type="text" placeholder="Provide a topic" required></input>
+					    </div>
+					    <div class="span6">
+					    	<textarea id="share-content" class="span5" placeholder="Share your thoughts"></textarea>
 					    </div>
 				    </div>
 				    <div class="control-group controls controls-row">
 					    <div class="span4">
-							<input name="attachment" class="attachment" type="file" required></input>
+							<input id="share-attachment" type="file" required></input>
 						</div>
 					 </div>
 				</div>
@@ -146,13 +149,13 @@
 		</form>
 	</div>
 
-    <script type="text/javascript" src="{% static "/static/vendor/jquery/js/jquery-1.9.1.min.js" %}"></script>
+    <!-- <script type="text/javascript" src="{% static "/static/vendor/jquery/js/jquery-1.9.1.min.js" %}"></script>
     <script type="text/javascript" src="{% static "/static/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "/static/vendor/bootstrap-lightbox/js/bootstrap-lightbox.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "/static/vendor/underscore/js/underscore-min.js" %}"></script>
 	<script type="text/javascript" src="{% static "/static/vendor/backbone/js/backbone.js" %}"></script>
-	<script type="text/javascript" src="{% static "/static/vendor/handlebars/js/handlebars.js" %}"></script>
-	<script id="add-picture-dialog-alert-template" type="text/x-handlebars-template">
+	<script type="text/javascript" src="{% static "/static/vendor/handlebars/js/handlebars.js" %}"></script>-->
+	<script id="share-dialog-alert-template" type="text/x-handlebars-template">
 		<div class="alert">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<strong>Warning!</strong> Something went seriously wrong!
@@ -165,6 +168,8 @@
 			</a>
 		</li>
 	</script>
-	<script type="text/javascript" src="{% static "/static/shareserver/js/poochable.jq.js" %}"></script>
+<!-- 	<script type="text/javascript" src="{% static "/static/shareserver/js/poochable.jq.js" %}"></script> -->
+	
+	<script data-main="{% static "/static/shareserver/js/index.js" %}" src="{% static "/static/lib/requirejs/require.js" %}"></script>
   </body>
 </html>

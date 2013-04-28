@@ -7,13 +7,13 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import SimpleTemplateResponse
-from shareserver.forms import PictureForm
-from shareserver.models import Dog, Person, Picture, SearchIndexPicture
-from shareserver.serializers import PictureSerializer
-from shareserver.tasks import handle_new_post
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from shareproject.apps.shareserver.forms import PictureForm
+from shareproject.apps.shareserver.models import Dog, Person, Picture, SearchIndexPicture
+from shareproject.apps.shareserver.serializers import PictureSerializer
+from shareproject.apps.shareserver.tasks import handle_new_post
 
 import logging
 

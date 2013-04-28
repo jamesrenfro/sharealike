@@ -1,5 +1,5 @@
 from celery import task, Celery
-from shareserver.models import Dog, Person, Picture, SearchIndexPicture
+from shareproject.apps.shareserver.models import Dog, Person, Picture, SearchIndexPicture
 
 celery = Celery('tasks')
 

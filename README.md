@@ -1,46 +1,64 @@
 Sharealike
 =========
 
-Share pictures with everybody!
+Share pictures with everybody! This project is a purely technical exercise to work out the details of how to use Django 
+alongside several contemporary Javascript frameworks to get the best of both worlds -- simple relational ORM with
+the goodies that come with Django, and highly modular, testable Javascript on the frontend. 
 
 ## Quick start
 
 This will start the app using a sqlite database under the top-level project directory, and store
-uploaded files under a local directory called 'public/media/originals'.
+uploaded files under a local directory called 'media/shareserver'.
 
 	> git clone https://github.com/jamesrenfro/poochable.git
-	> virtualenv poochable
-	> cd poochable
+	> virtualenv sharealike
+	> cd sharealike
 	> source bin/activate
+	> bower install
 	> pip install -r requirements
 	> python manage.py syncdb
+	> python manage.py migrate
 	> python manage.py runserver  
 
 
-You can also do the following, before starting the server, to add your own settings, start up using Celery, 
-use Postgres as your database, etc. 
+You may want to add your own settings, start up using Celery, use Postgres as your database, etc. Look under the following directory for the relevant files:
 
-	> cp sharealike/local_settings.txt sharealike/local_settings.py
+	> cd sharealike/shareproject/settings
+
+## Goals
+
+1. To take advantage of Django's capabilities on the server-side to do object relational mapping 
+2. To take advantage of Django's templating to allow initial screens to load quickly without additional round-trips
+3. To cleanly decouple client-side code so it can be tested independently
+4. To use Backbone.js and Require.js/AMD to build modular, maintainable MV* user interface
+5. To use Bootstrap to produce clean HTML5 with data attributes that avoid unnecessary explicit Javascript wiring
+
+
+## Testing the server-side
+
+	> python manage.py test shareserver
+	
+	
+## Testing the client/browser
+
+To test the client-side code you'll need to install testem
+
+	> npm install -g testem
+	
+Then do the following:
+	> cd sharealike/shareproject/assets
+	> testem
+	
+You'll be prompted to go to a URL with each browser that you want to test. 
 
 
 ## Configuring to use S3 and CloudFront to store and distribute images
 
-In local_settings.py, in addition to setting up your database connection
-parameters, you can also provide AWS credentials. If you don't already have
-an existing S3 bucket and CloudFront distribution for this purpose, you'll
-need to log in to the [AWS Management console](https://console.aws.amazon.com)
-and create one of each.
+In settings/development.py or settings/production.py, in addition to setting up your database connection parameters, you can also provide AWS credentials. If you don't already have an existing S3 bucket and CloudFront distribution for this purpose, you'll need to log in to the [AWS Management console](https://console.aws.amazon.com) and create one of each.
 
 ## Configuring to use Celery as a distributed task queue
 
-You'll need to add the setting USE_CELERY=True to your settings.py (or your
-local_settings.py). You may also want to configure the BROKER_URL for a non-guest
-user, though it's easier to start up as guest initially. To run celery as a daemon 
-process you'll want to follow these directions: [http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html](http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html) 
-It may be tricky to get the file permissions right if you run celeryd talking
-to a sqlite3 db, but if you use postgres (or mysql, etc...) you shouldn't have
-any problems. With sqlite3, you should be able to run celery workers at the command
-line using the following command:
+You'll need to add the setting USE_CELERY=True to one of your settings files. You may also want to configure the BROKER_URL for a non-guest user, though it's easier to start up as guest initially. To run celery as a daemon process you'll want to follow these directions: [http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html](http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html) It may be tricky to get the file permissions right if you run celeryd talking to a sqlite3 db, but if you use postgres (or mysql, etc...) you shouldn't have any problems. With sqlite3, you should be able to run celery workers at the command line using the following command:
 - python manage.py celery worker --loglevel=info
 
 ## Troubleshooting pillow/PIL installation
@@ -59,6 +77,7 @@ Project structure is mostly inherited from https://github.com/rdegges/django-ske
 thanks to https://github.com/rdegges and https://github.com/integricho 
 
 This is worth reading: http://integricho.github.io/2013/04/10/django-and-modular-js/
+
 
 
 ## Authors

@@ -85,7 +85,7 @@ class Person(AbstractEntityModel):
 # Defines an entity 'Picture' that belongs to a Dog (many-to-one)
 class Picture(AbstractEntityModel):
     dog = models.ForeignKey('Dog', null=False, db_index=True)
-    image = models.FileField(upload_to='originals')
+    image = models.FileField(upload_to='shareserver')
     #thumbnail = easy_thumbnails.fields.ThumbnailerImageField()
     height = models.IntegerField(null=True)
     width = models.IntegerField(null=True)

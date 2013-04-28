@@ -3,13 +3,13 @@ from django.core.files.storage import FileSystemStorage
 from django.db import IntegrityError
 from django.test import TestCase
 from django.test.client import Client, MULTIPART_CONTENT
-from shareserver.forms import PictureForm
-from shareserver.models import Dog, Person, Picture
+from shareproject.apps.shareserver.forms import PictureForm
+from shareproject.apps.shareserver.models import Dog, Person, Picture
+from os.path import join
 
 import mock
-import os  
 
-TEST_IMAGE_PATH = os.path.dirname(__file__) + '/static/lib/bootstrap/img/glyphicons-halflings.png'
+TEST_IMAGE_PATH = join(settings.DJANGO_ROOT, 'assets/lib/bootstrap/img/glyphicons-halflings.png')
 
 class ModelTest(TestCase):
     

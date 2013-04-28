@@ -1,0 +1,14 @@
+{
+	"framework": "mocha",
+	"src_files": [
+		"lib/underscore-amd/underscore.js",
+		"lib/jquery/jquery.js",
+		"lib/backbone-amd/backbone.js",
+		"lib/handlebars/handlebars.js",
+		"lib/chai/chai.js",
+		"lib/requirejs/require.js",
+		"shareserver/js/*.js",
+		"shareserver/js/tests/*.js"
+	],
+	"test_page": "shareserver/test.html"
+}
