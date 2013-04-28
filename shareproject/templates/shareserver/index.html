@@ -23,7 +23,7 @@
     <!-- <link rel="shortcut icon" href="/static/img/favicon.png">-->
   </head>
   <body>
-  	<form id="search-form">
+  	<form id="search-form" action="#search" method="GET">
 		<div id="header" class="navbar navbar-top">
 	  		<div class="navbar-inner">
 	    		<div class="container container-full-width">
@@ -38,7 +38,7 @@
 	    				<li>
 	    					<div class="btn-group">
 		             			<button id="search-button" type="submit" class="btn">Search</button>
-		             			<button id="browse-button" type="button" class="btn browse">Browse</button>
+		             			<a href="#browse" id="browse-button" type="button" class="btn browse">Browse</a>
 								<a class="btn btn-primary" id="post-button" data-toggle="modal" href="#share-dialog">Share&nbsp;<span class="icon icon-camera icon-white"></span></a>
 							</div>
 						</li>
@@ -86,6 +86,11 @@
 	        {% endif %}
 	        <div id="search-results" class="item">
 	        	<div class="modal-body">
+	        		<div class="thumbnail-container">
+						<ul class="thumbnails">
+						
+						</ul>
+					</div>
 	        	</div>
 	        </div>
 	      </div>
@@ -128,15 +133,15 @@
 				    -->
 				    <div class="control-group controls controls-row">
 				  		<div class="span6">
-						    <input id="share-title" type="text" name="dog_name" placeholder="Provide a topic" required></input>
+						    <input id="share-title" type="text" name="share_title" placeholder="Provide a topic" required></input>
 					    </div>
 					    <div class="span6">
-					    	<textarea id="share-content" class="span5" placeholder="Share your thoughts"></textarea>
+					    	<textarea id="share-content" name="share_content" class="span5" placeholder="Share your thoughts"></textarea>
 					    </div>
 				    </div>
 				    <div class="control-group controls controls-row">
 					    <div class="span4">
-							<input id="share-attachment" name="attachment" type="file" required></input>
+							<input id="share-attachment" name="share_attachment" type="file" required></input>
 						</div>
 					 </div>
 				</div>
@@ -149,19 +154,22 @@
 		</form>
 	</div>
 
+	{% verbatim %}
    	<script id="share-dialog-alert-template" type="text/x-handlebars-template">
 		<div class="alert">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<strong>Warning!</strong> Something went seriously wrong!
 		</div>
 	</script>
+	
 	<script id="search-result-template" type="text/x-handlebars-template">
 		<li>
 			<a class="thumbnail" href="/pooch/{{ id }}" data-toggle="lightbox" data-target="#post-picture-lightbox">
-				<img alt="Thumbnail of {{ dog_name }}" src=""> <p>{{ dog_name }}</p>
+				<img alt="Thumbnail of {{ title }}" src="{{ url }}"> <p>{{ title }}</p>
 			</a>
 		</li>
 	</script>
+	{% endverbatim %}
 	<script data-main="{% static "/static/shareserver/js/index.js" %}" src="{% static "/static/lib/requirejs/require.js" %}"></script>
   </body>
 </html>

@@ -11,7 +11,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from shareproject.apps.shareserver.forms import PictureForm
-from shareproject.apps.shareserver.models import Dog, Person, Picture, SearchIndexPicture
+from shareproject.apps.shareserver.models import Share, Person, Picture, SearchIndexPicture
 from shareproject.apps.shareserver.serializers import PictureSerializer
 from shareproject.apps.shareserver.tasks import handle_new_post
 

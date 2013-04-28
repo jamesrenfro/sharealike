@@ -116,6 +116,10 @@ ul.nav li {
 	width: 100px;
 }
 
+.thumbnail-container {
+	margin: 20px 20px;	
+}
+
 #search-results .modal-body {
 	position: relative;
 	max-height: none;

@@ -6,23 +6,30 @@ define(['share_collection'], function (ShareModelCollection) {
 		},
         
         initialize: function() {
-            this.listenTo(Backbone.Mediator, 'browse', this.onBrowse);
-            this.listenTo(Backbone.Mediator, 'search', this.onSearch);
+            this.listenTo(Backbone.Mediator, 'onBrowse', this.onBrowse);
+            this.listenTo(Backbone.Mediator, 'onSearch', this.onSearch);
+            this.listenTo(Backbone.Mediator, 'results', this.onResults);
         },
         
         onBrowse: function() {
-            this.doShow();
+            //this.doShow();
             Backbone.sync('read', this.collection, { success: this.onSuccess });
-            //this.$el.load("/browse");
+        },
+        
+        onResults: function(collection) {
+            this.doShow();
+            this.attributes.results = collection;
+            this.render();
         },
         
         onSearch: function(query) {
-            this.doShow();
-            this.$el.load("/search?term=" + query);
+            //this.doShow();
+            Backbone.sync('read', this.collection, { data: { term: query }, success: this.onSuccess });
+            //this.$el.load("/search?term=" + query);
         },
         
-        onSuccess: function(event) {
-            this.render();
+        onSuccess: function(collection) {
+            Backbone.Mediator.trigger('results', collection);
         },
         
         doShow: function() {
@@ -33,13 +40,12 @@ define(['share_collection'], function (ShareModelCollection) {
         },
         
         render: function() {
-            var html = '';
-            html += '<div class="container"><br/><ul>';
-            $.each(this.collection, function(i, model) {
-                html += '<li>' + model.dog_name + '</li>';
+            var $thumbnails = this.$el.find('ul.thumbnails');
+            $thumbnails.empty();
+            var resultTemplate = this.attributes.resultTemplate;
+            $.each(this.attributes.results, function(i, model) {
+                $thumbnails.append(resultTemplate(model));
             });
-            html += '</ul></div>';
-            this.$el.html(html);
         }
         
     });

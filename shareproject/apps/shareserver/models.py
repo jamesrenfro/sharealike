@@ -9,7 +9,7 @@ from django.db.models import fields
 
 
 # This class defines common fields and behavior for all "entity" models, 
-# such as Dog, Person, etc...
+# such as Share, Person, etc...
 #
 # Note: Explicitly specifying the blank and null keywords in some cases where they match defaults 
 #       to make clear where fields will auto-populate or tolerate blank and/or null. 
@@ -51,19 +51,20 @@ class AbstractEntityModel(models.Model):
     class Meta:
         abstract = True
 
-# Defines an entity 'Dog' that belongs to a Person (many-to-one) and can have 0 or more 
+# Defines an entity 'Share' that belongs to a Person (many-to-one) and can have 0 or more 
 # Pictures (one-to-many) via standard foreign key relationships. 
-class Dog(AbstractEntityModel):
-    name = fields.CharField(max_length=255, blank=False, null=False, db_index=False)  # allow empty dog names, this field will not be indexed
+class Share(AbstractEntityModel):
+    title = fields.CharField(max_length=255, blank=False, null=False, db_index=False)  
+    content = fields.CharField(blank=True, null=False, db_index=False)
     owner = models.ForeignKey('Person', null=False, db_index=True)
 
     def get_search_term(self):
-        return self.name
+        return self.title
 
     def __unicode__(self):
-        return '{{ "name": "{model.name}", "owner": {model.owner}, "created": {model.created}", "last_modified": "{model.last_modified}", "modified_by": {model.modified_by}, "is_deleted": {model.is_deleted} }}'.format(model=self);
+        return '{{ "title": "{model.title}", "content": "{model.content}", "owner": {model.owner}, "created": {model.created}", "last_modified": "{model.last_modified}", "modified_by": {model.modified_by}, "is_deleted": {model.is_deleted} }}'.format(model=self);
 
-# Defines an entity 'Person' that can have 0 or more Dogs (one-to-many)
+# Defines an entity 'Person' that can have 0 or more Shares (one-to-many)
 class Person(AbstractEntityModel):
     first_name = fields.CharField(max_length=75, blank=True, null=True, db_index=False) # no reason to store repeated text for anonymous submissions
     middle_name = fields.CharField(max_length=75, blank=True, null=True, db_index=False)
@@ -84,8 +85,9 @@ class Person(AbstractEntityModel):
 
 # Defines an entity 'Picture' that belongs to a Dog (many-to-one)
 class Picture(AbstractEntityModel):
-    dog = models.ForeignKey('Dog', null=False, db_index=True)
+    share = models.ForeignKey('Share', null=False, db_index=True)
     image = models.FileField(upload_to='shareserver')
+    thumbnail = models.FileField(upload_to='shareserver/thumbnails')
     #thumbnail = easy_thumbnails.fields.ThumbnailerImageField()
     height = models.IntegerField(null=True)
     width = models.IntegerField(null=True)
