@@ -28,7 +28,8 @@ define(['share_model'], function (ShareModel) {
         onComplete: function() {
             // Hide the dialog
 			$('#share-dialog').modal('hide');
-            this.attributes.router.navigate('browse', {trigger: true});
+            //this.attributes.router.navigate('browse', {trigger: true});
+			Backbone.Mediator.trigger('onBrowse');
         },
         
         onFailure: function(jqXHR, textStatus, errorThrown) {

@@ -6,6 +6,7 @@ Model class.
 """
 from django.db import models
 from django.db.models import fields
+from easy_thumbnails.fields import ThumbnailerImageField
 
 
 # This class defines common fields and behavior for all "entity" models, 
@@ -73,9 +74,8 @@ class Person(AbstractEntityModel):
 # Defines an entity 'Picture' that belongs to a Share (many-to-one)
 class Picture(AbstractEntityModel):
     share = models.ForeignKey('Share', null=False, db_index=True)
-    image = models.FileField(upload_to='shareserver')
-    thumbnail = models.FileField(upload_to='shareserver/thumbnails')
-    #thumbnail = easy_thumbnails.fields.ThumbnailerImageField()
+    image = models.ImageField(upload_to='shareserver', width_field='width', height_field='height')
+    thumbnail = ThumbnailerImageField(upload_to='shareserver/thumbnails', resize_source=dict(size=(200, 200), crop='smart'))
     height = models.IntegerField(null=True)
     width = models.IntegerField(null=True)
     score = fields.PositiveIntegerField(blank=True, null=False, db_index=True)

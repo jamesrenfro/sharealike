@@ -1,4 +1,4 @@
 {
   "directory": "shareproject/assets/lib",
-  "json": "components.json"
+  "json": "bower.json"
 }

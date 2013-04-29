@@ -5,7 +5,7 @@ django-celery
 django-compressor==1.2
 djangorestframework == 2.2.6
 django-storages == 1.1.8
-#easy-thumbnails == 1.2
+easy-thumbnails == 1.2
 #pillow
 mock
 South==0.7.6

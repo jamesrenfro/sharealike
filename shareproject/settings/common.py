@@ -6,6 +6,10 @@ from sys import path
 
 from djcelery import setup_loader
 
+########### EASY THUMBNAILS GENERATION
+#from easy_thumbnails.signals import saved_file
+#from easy_thumbnails.signal_handlers import generate_aliases_global
+#saved_file.connect(generate_aliases_global)
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
@@ -199,6 +203,10 @@ THIRD_PARTY_APPS = (
 
     # Asynchronous task queue:
     'djcelery',
+    
+    # Thumbnail generator
+    'easy_thumbnails',
+    
 )
 
 LOCAL_APPS = (

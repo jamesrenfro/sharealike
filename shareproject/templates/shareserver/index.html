@@ -5,7 +5,7 @@
   <head>
     <!-- Bootstrap -->
     <meta charset="utf-8">
-    <title>Sharealike</title>
+    <title>Share-alike</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -27,7 +27,7 @@
 		<div id="header" class="navbar navbar-top">
 	  		<div class="navbar-inner">
 	    		<div class="container container-full-width">
-	    			<a href="/" class="brand">Sharealike - photo sharing</a>
+	    			<a href="/" class="brand"><span class="lead">share-alike</span> / photo sharing</a>
 	    			<ul class="nav">
 	    				<li>
 	    					<div>
@@ -80,7 +80,7 @@
 		<form id="share-form">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="muted text-info">Post something</h4>
+				<h4 class="muted text-info">Post <em>your</em> picture</h4>
 			</div>
 			<div class="modal-body">
 				<div class="picture-dialog-content">
@@ -127,10 +127,13 @@
 	<script id="search-result-template" type="text/x-handlebars-template">
 		<div class="thumbnail-container">
 			<ul class="thumbnails">
+				{{#unless results}}
+ 				<li><h2 class="warning">No results found for this search</h2></li>
+  				{{/unless}}
 				{{#each results}}			
 				<li>
 					<a class="thumbnail" data-toggle="lightbox" href="#lightbox-{{ id }}">
-						<img alt="Thumbnail of {{ share_title }}" src="{{ url }}"> <p>{{ share_title }}</p>
+						<img alt="Thumbnail of {{ share_title }}" src="{{ thumbnail_url }}"> <p class="text-left"><small>{{ share_title }}</small></p>
 					</a>
 					<div id="lightbox-{{ id }}" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class='lightbox-header'>

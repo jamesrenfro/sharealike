@@ -1,8 +1,8 @@
 html {
-	background-color: LemonChiffon;
+	background-color: #252525;
 }
 body {
-	background-color: LemonChiffon;
+	background-color: #252525;
 	padding-top: 0px;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -48,7 +48,7 @@ ul.nav li {
 }
 
 /* Main marketing message and sign up button */
-.jumbotron {
+/*.jumbotron {
 	margin: 80px 0;
 	text-align: center;
 }
@@ -66,7 +66,7 @@ ul.nav li {
 .jumbotron .btn {
 	font-size: 21px;
 	padding: 14px 24px;
-}
+}*/
 
 .lightbox-caption {
 	color: white;
@@ -76,13 +76,10 @@ ul.nav li {
 	overflow-y: auto;
 }
 
-/* Supporting marketing content */
-.marketing {
-	margin: 60px 0;
-}
-
-.marketing p+h4 {
-	margin-top: 28px;
+.modal {
+	-webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
 }
 
 .navbar {
@@ -91,11 +88,17 @@ ul.nav li {
 
 .navbar .brand {
 	margin-left: 0px;
+	padding-top: 5px;
 }
 
 /* Customize the navbar links to be fill the entire space of the .navbar */
 .navbar .navbar-inner {
-	padding: 0;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 5px;
+	-webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
 }
 
 .navbar .nav>li {
@@ -115,13 +118,16 @@ ul.nav li {
 	background-color: FloralWhite;
 	text-align: center;
 	font-size: 12pt;
+	-webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
 	color: #777;
 	text-shadow: 0 1px 0 #fff;
 }
 
 .thumbnail>img {
-	height: 100px;	
-	width: 100px;
+	height: 200px;	
+	width: 200px;
 }
 
 .thumbnail-container {
