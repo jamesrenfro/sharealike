@@ -1,14 +1,24 @@
-Sharealike
+Share-alike
 =========
 
-Share pictures with everybody! This project is a purely technical exercise to work out the details of how to use Django 
-alongside several contemporary Javascript frameworks to get the best of both worlds -- simple relational ORM with
-the goodies that come with Django, and highly modular, testable Javascript on the frontend. 
+Share pictures with everybody! 
+
+This project is a technical exercise that uses Python Django on the server-side along with several current Javascript frameworks on the client, including Backbone.js, Handlebars.js, Requirejs, and Twitter Bootstrap. The high-level goal is to take advantage of Django's server-side templating and relational ORM, while building modular, testable Javascript on the frontend that can be easily optimized and minified for production deployment. By using Requirejs and Backbone together it's possible to develop self-contained units of code, following the Java pattern where each class has its own separate file, without (at least post-optimization) incurring the cost of all those additional roundtrips to the server. Following the lead of projects like Bootstrap and Angular, it's clearly possible to eliminate a lot of the tight-coupling between Javascript and a particular HTML layout. In this case, I try to do that by building Backbone Views that can be pointed at a particular element at runtime, and avoiding too much direct jQuery DOM manipulation based on ids. 
+
+## Goals
+
+1. To take advantage of Django's capabilities on the server-side to do object relational mapping 
+2. To take advantage of Django's templating to allow initial screens to load quickly without additional round-trips
+3. To cleanly decouple client-side code so it can be tested independently
+4. To use Backbone.js and Require.js to build modular, maintainable MV* user interface
+5. To use Bootstrap to produce clean HTML5 with data attributes that avoid unnecessary explicit Javascript wiring
+6. To make all communication with the server after the page load use REST/json api calls 
 
 ## Quick start
 
 This will start the app using a sqlite database under the top-level project directory, and store
-uploaded files under a local directory called 'media/shareserver'.
+uploaded files under a local directory called 'media/shareserver'. Note that you will need to have a few dependencies 
+installed already to get started, including vitualenv and bower, which is easiest to install with the node package manager npm.
 
 	> git clone https://github.com/jamesrenfro/poochable.git
 	> virtualenv sharealike
@@ -24,15 +34,6 @@ uploaded files under a local directory called 'media/shareserver'.
 You may want to add your own settings, start up using Celery, use Postgres as your database, etc. Look under the following directory for the relevant files:
 
 	> cd sharealike/shareproject/settings
-
-## Goals
-
-1. To take advantage of Django's capabilities on the server-side to do object relational mapping 
-2. To take advantage of Django's templating to allow initial screens to load quickly without additional round-trips
-3. To cleanly decouple client-side code so it can be tested independently
-4. To use Backbone.js and Require.js/AMD to build modular, maintainable MV* user interface
-5. To use Bootstrap to produce clean HTML5 with data attributes that avoid unnecessary explicit Javascript wiring
-
 
 ## Testing the server-side
 
